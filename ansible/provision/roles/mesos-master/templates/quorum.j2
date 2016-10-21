@@ -1,0 +1,10 @@
+{% set count = 0 %}
+{% for i in groups['master'] %}
+{% set count = count + 1 %}
+{% if loop.last %}
+{% set q = count/2 %}
+{% set q = q|int %}
+{% set quorum = q+1 %}
+{{ quorum }}
+{% endif %}
+{% endfor %}

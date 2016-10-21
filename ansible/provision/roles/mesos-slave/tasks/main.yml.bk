@@ -1,0 +1,24 @@
+---
+
+- name: Creates directory
+  file: path=/etc/mesos-slave/conf  state=directory 
+
+- name: Copy {{ role_name }} ip  file
+  template: src=ip.j2 dest=/etc/mesos-slave/ip
+  notify: restart {{ role_name }}
+
+- name: Copy {{ role_name }} hostname file
+  template: src=ip.j2 dest=/etc/mesos-slave/hostname
+  notify: restart {{ role_name }}
+
+- name: Copy {{ role_name }} ZK file
+  template: src=zk.j2 dest=/etc/mesos/zk
+  notify: restart {{ role_name }}
+
+- name: Copy {{ role_name }} containerizers.j2 file
+  template: src=containerizers.j2 dest=/etc/mesos-slave/containerizers
+  notify: restart {{ role_name }}
+
+- name: Copy {{ role_name }} executor_registration_timeout
+  template: src=executor_registration_timeout.j2 dest=/etc/mesos-slave/executor_registration_timeout
+  notify: restart {{ role_name }}

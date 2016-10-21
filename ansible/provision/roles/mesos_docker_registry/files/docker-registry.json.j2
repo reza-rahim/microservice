@@ -1,0 +1,43 @@
+{
+  "container": {
+    "type": "DOCKER",
+    "volumes": [
+      {
+         "containerPath": "/var/lib/registry",
+         "hostPath": "/var/lib/registry",
+         "mode": "RW"
+      },
+      {
+         "containerPath": "/etc/docker/registry/config.yml",
+         "hostPath": "/etc/docker/registry/config.yml",
+         "mode": "RW"
+      }
+    ],
+    "docker": {
+      "image": "registry:2",
+      "network": "HOST",
+      "parameters": [
+                 { "key": "log-driver", "value": "syslog" },
+                 { "key": "log-opt", "value": "tag=registry" }
+
+      ],	
+      "forcePullImage":false
+    }
+  },
+  "instances": 1,
+  "cpus": {{ docker_registry_cpus }},
+  "mem": {{ docker_registry_mem }} ,
+  "healthChecks": [
+    {
+      "path": "/v2/",
+      "protocol": "HTTP",
+      "gracePeriodSeconds": 30,
+      "intervalSeconds": 5,
+      "timeoutSeconds": 5,
+      "maxConsecutiveFailures": 5,
+      "ignoreHttp1xx": false,
+      "port": 5000
+    }
+   ],
+  "constraints": [["hostname", "CLUSTER", "{{ inventory_hostname }}"]]
+}

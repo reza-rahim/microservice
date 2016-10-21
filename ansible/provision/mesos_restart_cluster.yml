@@ -1,0 +1,13 @@
+---
+# ansible-playbook restart_mesos_cluster.yml -e "cleanup=true" # to clean up zookeeper data dir
+# ansible-playbook restart_mesos_cluster.yml --tag "zookeeper"
+# ansible-playbook restart_mesos_cluster.yml --tag "mesos-master"
+# ansible-playbook restart_mesos_cluster.yml --tag "mesos-slave"
+# ansible-playbook restart_mesos_cluster.yml --tag "marathon"
+- hosts: all
+  become: yes
+  roles:
+        - { role: mesos_stop_cluster }
+        - { role: common_stop_cluster }
+        - { role: common_start_cluster }
+        - { role: mesos_start_cluster }

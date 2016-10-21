@@ -1,0 +1,11 @@
+---
+- name: Add mesosphere repo
+  yum: name=http://repos.mesosphere.com/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm state=present
+
+- name: Install mesospheres
+  yum: pkg={{item}} state=present update_cache=yes
+  with_items:
+    - mesosphere-zookeeper-3.4.6
+    - mesos-0.28.0
+    - marathon-0.15.0
+    - chronos-2.4.0

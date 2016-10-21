@@ -1,0 +1,23 @@
+{
+  "cpus": {{ cpus }},
+  "mem": {{ memory }},
+  "instances": {{ instances }},
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "{{ groups["docker_registry"][0] }}:5000/{{ app_group }}/{{ app_id }}:{{ tag }}",
+      "network": "BRIDGE",
+      "parameters": [
+                 { "key": "hostname", "value": "{{ app_id }}.weave.local" },
+                 { "key": "log-driver", "value": "syslog" },
+                 { "key": "log-opt", "value": "tag={{ app_id }}" },
+                 { "key": "publish", "value": "9080:80" }
+
+      ],
+      "forcePullImage":false
+    }
+  },
+   "constraints": [
+      ["slavetype", "CLUSTER", "{{ slavetype }}"]
+   ]
+}

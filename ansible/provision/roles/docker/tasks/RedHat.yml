@@ -1,0 +1,21 @@
+- name: Install Docker Repository
+  template: src=docker-repo.j2 dest=/etc/yum.repos.d/docker.repo
+ 
+- name: (yum) Install Docker Engine
+  yum: name={{ docker_yum_package }} state=present
+  when: ansible_pkg_mgr == 'yum'
+  notify: Start {{ role_name }}
+
+- name: Add docker insecure parameter
+  replace:
+    backup: yes
+    dest: /usr/lib/systemd/system/docker.service
+    regexp: '(^ExecStart=.*\D)$'
+    replace: '\1 --insecure-registry {{ groups["docker_registry"][0] }}:5000'
+  register: result
+  notify: Start {{ role_name }}
+
+- name: Ensure systemd is reloaded if weave.service has changed
+  shell: systemctl daemon-reload
+  when: result|changed
+

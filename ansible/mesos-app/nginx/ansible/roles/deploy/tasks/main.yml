@@ -1,0 +1,18 @@
+---
+- name: Creates directory
+  file: path=/var/tmp/{{ app_id }}  state=directory recurse=yes
+  delegate_to: localhost
+
+#- name: Create json body
+#  template: src=application.json.j2 dest=/var/tmp/{{ app_id }}/application.json
+#  delegate_to: localhost
+
+- name: deploy {{ app_id }}  marathon app
+  uri:
+    url: http://{{ groups["marathon"][0] }}:8080/v2/apps/{{ app_group }}/{{ app_id }}
+    method: PUT
+    status_code: 200,201,204
+    HEADER_Content-Type: "application/json"
+    body: '{{ lookup("template", "application.json.j2") }}'
+    body_format: json
+  delegate_to: localhost

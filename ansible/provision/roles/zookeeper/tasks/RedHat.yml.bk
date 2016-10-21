@@ -1,0 +1,39 @@
+---
+
+- name: Creates directory 
+  file: path=/etc/zookeeper/conf/  state=directory
+
+- name: Creates directory
+  file: path=/var/log/zookeeper  state=directory
+
+- name: deploy {{ role_name }} myid
+  template: src=myid.j2 dest=/var/lib/zookeeper/myid
+  notify: Create {{ role_name }} triggger file
+
+- name: deploy {{ role_name }} zoo.cfg
+  template: src=zoo.cfg.j2 dest=/etc/zookeeper/conf/zoo.cfg
+  notify: Create {{ role_name }} triggger file
+
+- name: change zookeeper env file
+  replace:
+    dest=/opt/mesosphere/zookeeper/bin/zkEnv.sh
+    regexp='ZOO_LOG_DIR="\."'
+    replace='ZOO_LOG_DIR="/var/log/zookeeper"'
+    backup=yes
+
+- name: change zookeeper env file
+  replace:
+    dest=/opt/mesosphere/zookeeper/bin/zkEnv.sh
+    regexp='CONSOLE'
+    replace='ROLLINGFILE'
+    backup=yes
+
+- meta: flush_handlers
+
+- name: check the trigger file /var/tmp/{{ role_name }}-restart.trigger
+  stat: path=/var/tmp/{{ role_name }}-restart.trigger
+  register: trigger
+
+
+- name: Delete  triggger file /var/tmp/{{ role_name }}-restart.trigger
+  file: path=/var/tmp/{{ role_name }}-restart.trigger state=absent

@@ -1,0 +1,11 @@
+---
+
+- name: restart flocker control
+  service: name=flocker-control  state=restarted enabled=yes
+
+- name: restart flocker node
+  service: name={{ item }}  state=restarted enabled=yes
+  with_items:
+    - flocker-dataset-agent
+    - flocker-container-agent
+    - flocker-docker-plugin

@@ -1,0 +1,35 @@
+---
+### ansible-playbook ... -e "cleanup=true" to clean zookeeper and mesos data dir
+
+- name: stop marathon
+  service: name=marathon state=stopped
+  when: "'marathon' in  group_names"
+  tags: marathon
+
+- name: stop mesos-slave
+  service: name=mesos-slave state=stopped
+  when: "'slave' in  group_names"
+  tags: mesos-slave
+
+- name: stop mesos-master
+  service: name=mesos-master state=stopped
+  when: "'master' in  group_names"
+  tags: mesos-master
+
+- name: stop zookeeper
+  service: name=zookeeper state=stopped
+  when: "'zookeeper' in  group_names"
+  tags: zookeeper
+
+- name: clean zookeeper data dir
+  shell: rm -rf {{ zookeeper_dataDir }}/*/*
+  when: ( cleanup is defined ) and ( "'zookeeper' in  group_names" )
+
+- name: clean mesos-master data dir
+  shell: rm -rf /var/lib/mesos/*
+  when: ( cleanup is defined ) and ( "'master' in  group_names" )
+
+- name: clean mesos-slave data dir
+  shell: rm -rf /var/lib/mesos/*
+  when: ( cleanup is defined ) and ( "'slave' in  group_names" )
+

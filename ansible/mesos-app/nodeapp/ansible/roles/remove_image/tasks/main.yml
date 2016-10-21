@@ -1,0 +1,4 @@
+---
+- name: remove docker images
+  command: docker rmi -f {{ image_name }}
+  ignore_errors: yes

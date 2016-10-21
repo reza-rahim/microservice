@@ -1,0 +1,11 @@
+---
+- name: Install jq
+  yum: pkg={{item}} state=present update_cache=yes
+  with_items:
+    - jq-1.5-1.el7
+
+- name: Create DOCKER_REGISTRY env variable
+  lineinfile:
+      dest=/etc/bashrc
+      line="export DOCKER_REGISTRY={{ groups['docker_registry'][0] }}:5000"
+      state=present

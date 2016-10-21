@@ -1,0 +1,18 @@
+---
+
+- name: Creates directory /etc/docker/registry
+  file: path=/etc/docker/registry/  state=directory
+
+- name: Copy  config.yml to /etc/docker/registry/config.yml
+  template: src=config.yml dest=/etc/docker/registry/config.yml
+
+- name: deploy docker registry marathon app
+  uri:
+    url: http://{{ groups["marathon"][0] }}:8080/v2/apps/{{ app_id }}
+    method: PUT
+    status_code: 200,201,204
+    HEADER_Content-Type: "application/json"
+    #body: '{{ lookup("file", "/var/tmp/{{ app_id }}/application.json") }}'
+    body: '{{ lookup("template", "docker-registry.json.j2") }}'
+    body_format: json
+  delegate_to: localhost

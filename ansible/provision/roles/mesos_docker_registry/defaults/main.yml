@@ -1,0 +1,5 @@
+instances: 1
+cpus: 0.1
+mem: 64
+service_port: 10000
+app_id: /system/docker/registry

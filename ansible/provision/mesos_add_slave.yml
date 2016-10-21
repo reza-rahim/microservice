@@ -1,0 +1,10 @@
+---
+
+- hosts: slave
+  become: yes
+  roles:
+        - { role: common }
+        - { role: docker }
+        - { role: mesosphere }
+        - { role: mesos-slave }
+

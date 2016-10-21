@@ -1,0 +1,11 @@
+tickTime= {{ zookeeper_tickTime }}
+clientPort= {{ zookeeper_clientPort }}
+initLimit= {{ zookeeper_initLimit }}
+syncLimit= {{ zookeeper_syncLimit }}
+dataDir= {{ zookeeper_dataDir }}
+autopurge.purgeInterval= {{ zookeeper_autopurge_purgeInterval }}
+autopurge.snapRetainCount= {{ zookeeper_autopurge_snapRetainCount }}
+
+{% for host in groups['zookeeper'] %}
+server.{{ loop.index }}={{ host }}:2888:3888
+{% endfor %}

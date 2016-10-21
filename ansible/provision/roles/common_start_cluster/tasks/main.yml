@@ -1,0 +1,29 @@
+---
+
+- name: start docker
+  service: name=docker state=started
+  tags: docker
+
+- name: start weave 
+  command: docker start  weave
+  tags: weave
+
+- name: start  weaveproxy 
+  command: docker start  weaveproxy
+  tags: weave
+
+- name: start weave scope
+  command: scope launch
+  tags: scope
+
+- name:  start flocker-container-agent
+  service: name=flocker-container-agent state=started
+  tags: flocker
+
+- name: start  flocker-container-agent
+  service: name=flocker-container-agent state=started
+  tags: flocker
+
+- name: start flocker-docker-plugin
+  service: name=flocker-docker-plugin state=started
+  tags: flocker

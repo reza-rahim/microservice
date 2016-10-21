@@ -1,0 +1,76 @@
+---
+
+- hosts: all
+  gather_facts: True
+  become: yes
+  roles:
+
+        - { role: common }
+        - { role: docker }
+        - { role: weave }
+        - { role: flocker }
+
+- hosts: flocker_control
+  gather_facts: True
+  become: yes
+  serial: 1
+  roles:
+        - { role: flocker-config }
+
+- hosts: all
+  gather_facts: True
+  become: yes
+  serial: 1
+  roles:
+        - { role: flocker-config }
+
+- hosts: log_server
+  gather_facts: True
+  become: yes
+  roles:
+        - { role: log_server }
+
+- hosts: localhost
+  gather_facts: True
+  connection: local
+  become: yes
+
+  roles:
+
+        - { role: mgmt }
+
+- hosts: zookeeper
+  gather_facts: True
+  become: yes
+  roles:
+        - { role: mesosphere }
+        - { role: zookeeper }
+
+- hosts: master
+  gather_facts: True
+  become: yes
+  roles:
+        - { role: mesosphere }
+        - { role: mesos-master }
+
+- hosts: slave
+  gather_facts: True
+  become: yes
+  roles:
+        - { role: mesosphere }
+        - { role: mesos-slave }
+
+- hosts: marathon
+  gather_facts: True
+  become: yes
+  roles:
+        - { role: marathon }
+
+
+#- hosts: chronos
+#  gather_facts: True
+#  become: yes
+#  roles:
+#        - { role: chronos }
+
+

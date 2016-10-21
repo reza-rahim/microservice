@@ -1,0 +1,12 @@
+- name: Add Ubuntu OpenJDK repo (for additional Java versions)
+  apt_repository: repo='ppa:openjdk-r/ppa' state=present
+
+- name: Install os packages
+  apt: 
+    pkg: "{{item}}"
+    state: present 
+    update_cache: yes
+  with_items: 
+    - openjdk-{{java_version}}-jre-headless
+    - openjdk-{{java_version}}-jdk
+

@@ -1,0 +1,16 @@
+---
+- name: Creates {{ role_name }} conf directory
+  file: path=/etc/chronos/conf  state=directory
+
+- name: Copy config {{ role_name }}
+  template: src="{{ item.src }}" dest="{{ item.dest }}" mode="{{ item.mode }}"
+  with_items:
+     - { src: 'ip.j2', dest: '/etc/chronos/conf/hostname', mode: '644' }
+     - { src: 'http_port.j2', dest: '/etc/chronos/conf/http_port', mode: '644' }
+     - { src: 'chronos.j2', dest: '/etc/default/chronos', mode: '644' }
+  register: result
+  notify: restart {{ role_name }}
+
+- name: Ensure systemd is reloaded if any config  changed
+  shell: systemctl daemon-reload
+  when: result|changed

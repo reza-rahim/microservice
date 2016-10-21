@@ -1,0 +1,32 @@
+---
+
+- name: install weave
+  get_url:
+     url: https://git.io/weave
+     dest: /usr/bin/weave
+     mode: 0755
+
+- name: Creates /etc/weave directory
+  file: path=/etc/weave  state=directory
+
+- name: Copy weave config
+  template: src="{{ item.src }}" dest="{{ item.dest }}" mode="{{ item.mode }}"
+  with_items:
+    - { src: 'weave.target', dest: '/etc/systemd/system/weave.target', mode: '644' }
+    - { src: 'weave.service', dest: '/etc/systemd/system/weave.service', mode: '644' }
+    - { src: 'weaveproxy.service', dest: '/etc/systemd/system/weaveproxy.service', mode: '644' }
+    - { src: 'weave.env.j2', dest: '/etc/weave/weave.env', mode: '644' }
+  register: result
+  notify: restart weave
+
+- name: Ensure systemd is reloaded if weave.service has changed
+  shell: systemctl daemon-reload
+  when: result|changed
+
+- name: install weave
+  get_url:
+     url: https://github.com/weaveworks/scope/releases/download/latest_release/scope
+     dest: /usr/bin/scope
+     mode: 0755
+  notify: restart scope
+

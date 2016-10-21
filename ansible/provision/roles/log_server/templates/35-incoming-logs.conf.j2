@@ -1,0 +1,41 @@
+$ModLoad imtcp
+input(type="imtcp" port="514" ruleset="remote")
+
+template(name="PerHostDockerLogFileName" type="list") {
+   constant(value="/var/log/remote/")
+   property(name="hostname" securepath="replace")
+   constant(value="/")
+   property(name="$year")
+   constant(value="/")
+   property(name="$month")
+   constant(value="/")
+   property(name="$day")
+   constant(value="/docker/")
+   property(name="syslogtag" securepath="replace" \
+   regex.expression="docker/\\(.*\\)\\[" regex.submatch="1")
+   constant(value="/docker.log")
+}
+
+template(name="PerHostDockerCombinedLogFileName" type="list") {
+   constant(value="/var/log/remote/")
+   property(name="hostname" securepath="replace")
+   constant(value="/")
+   property(name="$year")
+   constant(value="/")
+   property(name="$month")
+   constant(value="/")
+   property(name="$day")
+   constant(value="/docker/combined.log")
+}
+
+ruleset(name="remote") {
+   $FileCreateMode 0644
+   $DirCreateMode 0755
+   if $programname == 'docker' then \
+     ?PerHostDockerCombinedLogFileName
+   if $programname == 'docker' then \
+     if $syslogtag contains 'docker/' then \
+       ?PerHostDockerLogFileName
+     else
+       /var/log/docker/no_tag/docker.log
+}

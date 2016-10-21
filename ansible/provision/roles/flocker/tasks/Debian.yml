@@ -1,0 +1,29 @@
+---
+
+- name: Install https and ca cert
+  apt: pkg={{item}}  state=present update_cache=yes
+  with_items:
+    - apt-transport-https
+    - software-properties-common
+
+- name: Add source repository into sources list.
+  apt_repository: repo="deb https://clusterhq-archive.s3.amazonaws.com/ubuntu/{{ ansible_distribution_version }}/$(ARCH) /" 
+
+
+- name: Create /etc/apt/preferences.d/ 
+  file: path=/etc/apt/preferences.d/ state=directory
+
+- name: Copy file
+  template: src="buildbot-700" dest="/etc/apt/preferences.d/"
+
+- name: apt-get update
+  apt: update_cache=yes
+
+- name: installing flocker package
+  apt: pkg={{item}} force=yes
+  with_items: 
+    - clusterhq-flocker-node
+    - clusterhq-flocker-docker-plugin
+    - clusterhq-flocker-cli
+
+

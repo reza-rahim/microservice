@@ -1,0 +1,30 @@
+---
+
+- name: top weave scope
+  command: scope stop 
+  tags: scope
+
+- name: top weave scope
+  command: docker stop weave 
+  tags: weave
+
+- name: top weave scope
+  command: docker stop weaveproxy 
+  tags: weave
+
+- name: stop flocker-dataset-agent
+  service: name=flocker-dataset-agent state=stopped
+  tags: flocker
+
+- name: stop flocker-container-agent
+  service: name=flocker-container-agent state=stopped
+  tags: flocker
+
+
+- name: stop flocker-docker-plugin
+  service: name=flocker-docker-plugin state=stopped
+  tags: flocker
+
+- name: stop docker
+  service: name=docker state=stopped
+  tags: docker

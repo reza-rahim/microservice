@@ -1,0 +1,4 @@
+instances:  "{{ groups['marathon_lb']|length }}"
+haproxy_ports: 9090
+marathon_port: 8080
+app_id: /system/marathon/marathon-lb

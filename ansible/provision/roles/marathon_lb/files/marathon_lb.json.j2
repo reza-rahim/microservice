@@ -1,0 +1,39 @@
+{
+   "cpus": {{ marathon_lb_cpus }},
+   "mem": {{ marathon_lb_mem }},
+   "instances": {{ instances }},
+   "container": {
+     "type": "DOCKER",
+     "docker": {
+        "image": "mesosphere/marathon-lb",
+        "network": "HOST",
+        "parameters": [
+                 { "key": "env", "value": "PORTS={{ haproxy_ports }}" }
+
+        ],   
+        "forcePullImage": false
+     },
+     "privileged": false
+   },
+   "args": [
+       "sse",
+       "--marathon", "http://{{ groups['marathon'][0] }}:{{ marathon_port }}",
+       "--group", "internal"
+   ],
+   "healthChecks": [
+    {
+      "path": "/_haproxy_health_check",
+      "protocol": "HTTP",
+      "gracePeriodSeconds": 30,
+      "intervalSeconds": 5,
+      "timeoutSeconds": 5,
+      "maxConsecutiveFailures": 5,
+      "ignoreHttp1xx": false,
+      "port": 9090
+    }
+   ],
+   "constraints":  [ ["hostname", "UNIQUE"], ["hostname", "LIKE","{% set comma = joiner("|") %}
+{% for host in groups['marathon_lb'] %}
+{{ comma() }}{{ host }}
+{%- endfor %}"] ]
+}

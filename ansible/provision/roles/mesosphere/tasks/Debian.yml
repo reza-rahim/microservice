@@ -1,0 +1,21 @@
+---
+
+- name: Install APT Key for Mesosphere repository
+  apt_key:
+    keyserver=hkp://keyserver.ubuntu.com:80
+    id=E56151BF
+    state=present
+
+- name: Install APT Mesosphere repository
+  apt_repository:
+    repo="deb http://repos.mesosphere.io/{{ ansible_distribution|lower }} {{ ansible_lsb.codename }} main"
+    state=present
+
+- name: Install mesospheres
+  apt: pkg={{item}} state=present update_cache=yes
+  with_items:
+    - zookeeper=3.4.8-1
+    - mesos=1.0.1-2.0.94.ubuntu1604
+    - marathon=1.3.0-1.0.506.ubuntu1604
+    #- chronos
+

@@ -1,0 +1,3 @@
+zk://{% for host in groups['zookeeper'] %}
+{{ host }}:2181{% if not loop.last %},{% endif %}
+{%- endfor %}/marathon

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+find /var/log/docker -mtime +{{ client_log_days }} -exec rm -rf {} \;
+find /var/log/remote -mtime +{{ server_log_days }} -exec rm -rf {} \;

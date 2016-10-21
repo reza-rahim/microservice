@@ -1,0 +1,14 @@
+---
+
+- hosts: docker_registry
+  become: yes
+
+  roles:
+        - { role: mesos_docker_registry }
+
+#- hosts: marathon_lb
+#  become: yes
+
+#  roles:
+#        - { role: marathon_lb }
+

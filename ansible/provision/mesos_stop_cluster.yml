@@ -1,0 +1,20 @@
+---
+
+# ansible-playbook mesos_stop_cluster.yml
+# ansible-playbook mesos_stop_cluster.yml -e "cleanup=true" to clean up zookeeper and mesos data data dir
+# ansible-playbook mesos_stop_cluster.yml --tag "docker"
+# ansible-playbook mesos_stop_cluster.yml --tag "zookeeper"
+# ansible-playbook mesos_stop_cluster.yml --tag "mesos-master"
+# ansible-playbook mesos_stop_cluster.yml --tag "mesos-slave"
+# ansible-playbook mesos_stop_cluster.yml --tag "marathon"
+# ansible-playbook mesos_stop_cluster.yml --tag "chronos"
+# ansible-playbook mesos_stop_cluster.yml --tag "chronos"
+# ansible-playbook mesos_stop_cluster.yml --tag "weave"
+# ansible-playbook mesos_stop_cluster.yml --tag "scope"
+
+- hosts: all
+  become: yes
+  serial: 1
+  roles:
+        - { role: mesos_stop_cluster }
+        - { role: common_stop_cluster }

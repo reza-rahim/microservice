@@ -1,0 +1,3 @@
+#docker volume create -d flocker -o size=10GB --name mongodb-01
+#sudo docker run --name mongo --volume-driver flocker -v mongodb-01:/data/db -d mongo
+

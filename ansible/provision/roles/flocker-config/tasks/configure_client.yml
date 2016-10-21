@@ -1,0 +1,55 @@
+---
+- name: Creates /etc/flocker directory
+  file: path=/etc/flocker  state=directory mode=700
+
+- name: download flockerctl
+  get_url:
+     url: https://get.flocker.io
+     dest: /tmp/
+     mode: 0755
+
+- name: install  flockerctl
+  command: /tmp/go.sh creates=/usr/local/bin/flockerctl
+
+- name: Create create-node-certificate
+  command: flocker-ca create-api-certificate {{ flocker_client }}
+  args:
+    chdir: "{{ flocker_local_tempdir }}"
+    creates: "{{ flocker_local_tempdir }}/{{ flocker_client }}.key"
+  delegate_to: 127.0.0.1
+
+- name: change pemission on {{ flocker_local_tempdir }}
+  file: path={{ flocker_local_tempdir }}  mode=0755 recurse=yes
+  delegate_to: 127.0.0.1
+
+
+- name: Copy flocker control config
+  copy: src="{{ item.src }}" dest="{{ item.dest }}" mode="{{ item.mode }}"
+  with_items:
+    - { src: '{{ flocker_local_tempdir }}/{{flocker_client}}.crt', dest: '/etc/flocker/{{flocker_client}}.crt', mode: '600' }
+    - { src: '{{ flocker_local_tempdir }}/{{flocker_client}}.key', dest: '/etc/flocker/{{flocker_client}}.key', mode: '600' }
+    - { src: '{{ flocker_local_tempdir }}/cluster.crt', dest: '/etc/flocker/cluster.crt', mode: '600' }
+
+- name: Create flockerctl env variable
+  lineinfile:
+      dest=/etc/bash.bashrc
+      line='{{ item }}'
+      state=present
+  with_items:
+    - 'export FLOCKER_CERTS_PATH=/etc/flocker/' 
+    - 'export FLOCKER_USER={{flocker_client}}'
+    - 'export FLOCKER_CONTROL_SERVICE={{ groups["flocker_control"][0] }}' 
+  when:
+    - ansible_os_family == "Debian"
+
+- name: Create flockerctl env variable
+  lineinfile:
+      dest=/etc/bashrc
+      line="{{ item }}"
+      state=present
+  with_items:
+    - 'export FLOCKER_CERTS_PATH=/etc/flocker/'  
+    - 'export FLOCKER_USER={{flocker_client}}' 
+    - 'export FLOCKER_CONTROL_SERVICE={{ groups["flocker_control"][0] }}' 
+  when:
+    - ansible_os_family == "RedHat"

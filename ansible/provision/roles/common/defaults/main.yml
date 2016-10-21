@@ -1,0 +1,2 @@
+client_log_days: 7
+server_log_days: 30

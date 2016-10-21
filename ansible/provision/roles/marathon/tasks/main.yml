@@ -1,0 +1,18 @@
+---
+
+- name: Creates directory
+  file: path=/etc/marathon/conf  state=directory
+
+- name: Copy config {{ role_name }}
+  template: src="{{ item.src }}" dest="{{ item.dest }}" mode="{{ item.mode }}"
+  with_items:
+     - { src: 'ip.j2', dest: '/etc/marathon/conf/hostname', mode: '644' }
+     - { src: 'zk_master.j2', dest: '/etc/marathon/conf/master', mode: '644' }
+     - { src: 'zk_marathon.j2', dest: '/etc/marathon/conf/zk', mode: '644' }
+     - { src: 'marathon.j2', dest: '/etc/default/marathon', mode: '644' }
+  register: result
+  notify: restart {{ role_name }}
+
+- name: Ensure systemd is reloaded if any config  changed
+  shell: systemctl daemon-reload
+  when: result|changed

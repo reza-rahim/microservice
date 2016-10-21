@@ -1,0 +1,18 @@
+---
+
+# ansible-playbook mesos_start_cluster.yml 
+# ansible-playbook mesos_start_cluster.yml --tag "docker"
+# ansible-playbook mesos_start_cluster.yml --tag "zookeeper"
+# ansible-playbook mesos_start_cluster.yml --tag "mesos-master"
+# ansible-playbook mesos_start_cluster.yml --tag "mesos-slave"
+# ansible-playbook mesos_start_cluster.yml --tag "marathon"
+# ansible-playbook mesos_start_cluster.yml --tag "chronos"
+# ansible-playbook mesos_start_cluster.yml --tag "weave"
+# ansible-playbook mesos_start_cluster.yml --tag "scope"
+
+- hosts: all
+  become: yes
+  serial: 1
+  roles:
+        - { role: common_start_cluster }
+        - { role: mesos_start_cluster }

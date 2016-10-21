@@ -1,0 +1,3 @@
+---
+- name: restart {{ role_name }} 
+  service: name={{ role_name }} state=restarted enabled=yes

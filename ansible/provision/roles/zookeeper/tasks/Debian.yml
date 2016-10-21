@@ -1,0 +1,15 @@
+---
+
+- name: Creates directory /etc/zookeeper/conf/
+  file: path=/etc/zookeeper/conf/  state=directory
+
+- name: Creates directory
+  file: path=/var/log/zookeeper  state=directory
+
+- name: deploy {{ role_name }} myid
+  template: src=myid.j2 dest=/etc/zookeeper/conf/myid
+  notify: restart zookeeper
+
+- name: deploy {{ role_name }} zoo.cfg
+  template: src=zoo.cfg.j2 dest=/etc/zookeeper/conf/zoo.cfg
+  notify: restart zookeeper

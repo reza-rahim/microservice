@@ -1,0 +1,19 @@
+---
+
+- name: Creates /etc/mesos-master/conf directory
+  file: path=/etc/mesos-master/conf  state=directory
+
+- name: Copy config {{ role_name }}
+  template: src="{{ item.src }}" dest="{{ item.dest }}" mode="{{ item.mode }}"
+  with_items:
+     - { src: 'ip.j2', dest: '/etc/mesos-master/ip', mode: '644' }
+     - { src: 'ip.j2', dest: '/etc/mesos-master/hostname', mode: '644' }
+     - { src: 'zk.j2', dest: '/etc/mesos/zk', mode: '644' }
+     - { src: 'cluster', dest: '/etc/mesos-master/cluster', mode: '644' }
+     - { src: 'quorum.j2', dest: '/etc/mesos-master/quorum', mode: '644' }
+  register: result
+  notify: restart {{ role_name }}
+
+- name: Ensure systemd is reloaded if any config  changed
+  shell: systemctl daemon-reload
+  when: result|changed

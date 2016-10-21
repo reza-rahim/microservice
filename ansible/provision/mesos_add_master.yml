@@ -1,0 +1,7 @@
+---
+
+- hosts: master
+  become: yes
+  roles:
+        - { role: mesosphere }
+        - { role: mesos-master }

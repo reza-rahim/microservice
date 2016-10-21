@@ -1,0 +1,14 @@
+---
+
+- name: Running Debian.yml
+  include: Debian.yml
+  when:
+    - ansible_os_family == "Debian"
+    - ( "'{{ flocker_control_service_groupname }}' in group_names") or ("'{{ flocker_agents_groupname }}'  in group_names") or ( "'{{ flocker_client_groupname }}' in group_names")
+
+- include: RedHat.yml
+  name: Running Redhat.yml
+  when:
+    - ansible_os_family == "RedHat"
+    - ( "'{{ flocker_control_service_groupname }}' in group_names") or ("'{{ flocker_agents_groupname }}'  in group_names") or ( "'{{ flocker_client_groupname }}' in group_names")
+

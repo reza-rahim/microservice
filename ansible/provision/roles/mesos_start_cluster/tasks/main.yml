@@ -1,0 +1,24 @@
+---
+
+
+- name: start zookeeper
+  service: name=zookeeper state=started
+  when: "'zookeeper' in  group_names"
+  tags: zookeeper
+
+- name: start  mesos-master
+  service: name=mesos-master state=started
+  when: "'master' in  group_names"
+  tags: mesos-master
+
+
+- name: start mesos-slave
+  service: name=mesos-slave state=started
+  when: "'slave' in  group_names"
+  tags: mesos-slave
+
+- name: start marathon
+  service: name=marathon state=started
+  when: "'marathon' in  group_names"
+  tags: marathon
+

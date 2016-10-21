@@ -1,0 +1,3 @@
+Package: *
+Pin: origin clusterhq-archive.s3.amazonaws.com
+Pin-Priority: 700

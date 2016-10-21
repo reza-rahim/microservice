@@ -1,0 +1,15 @@
+/var/log/docker/*/docker.log {
+  rotate {{ client_log_days }}
+  compress
+  missingok
+  delaycompress
+  copytruncate
+}
+/var/log/docker/*.log {
+  rotate {{ client_log_days }}
+  compress
+  missingok
+  delaycompress
+  copytruncate
+}
+

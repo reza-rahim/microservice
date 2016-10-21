@@ -1,0 +1,29 @@
+---
+
+- name: Creates directory
+  file: path=/etc/mesos-slave/conf  state=directory 
+
+- name: Copy config {{ role_name }}
+  template: src="{{ item.src }}" dest="{{ item.dest }}" mode="{{ item.mode }}"
+  with_items:
+     - { src: 'ip.j2', dest: '/etc/mesos-slave/ip', mode: '644' }
+     - { src: 'ip.j2', dest: '/etc/mesos-slave/hostname', mode: '644' }
+     - { src: 'zk.j2', dest: '/etc/mesos/zk', mode: '644' }
+     - { src: 'containerizers.j2', dest: '/etc/mesos-slave/containerizers', mode: '644' }
+     - { src: 'attributes.j2', dest: '/etc/mesos-slave/attributes', mode: '644' }
+     - { src: 'executor_registration_timeout.j2', dest: '/etc/mesos-slave/executor_registration_timeout', mode: '644' }
+  register: result
+  notify: restart {{ role_name }}
+
+- name: Create MESOS_DOCKER_SOCKET in /etc/default/mesos-slave
+  lineinfile:
+      dest=/etc/default/mesos-slave
+      line=MESOS_DOCKER_SOCKET=/var/run/weave/weave.sock
+      state=present
+  register: result
+  notify: restart {{ role_name }}
+
+- name: Ensure systemd is reloaded if any config  changed
+  shell: systemctl daemon-reload
+  when: result|changed
+  

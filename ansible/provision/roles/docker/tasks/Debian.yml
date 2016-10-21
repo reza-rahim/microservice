@@ -1,0 +1,32 @@
+---
+
+- name: Install https and ca cert
+  apt: pkg={{item}}  state=present update_cache=yes
+  with_items:
+    - apt-transport-https 
+    - ca-certificates
+
+- name: Add docker apt keys
+  apt_key: keyserver=hkp://p80.pool.sks-keyservers.net:80  id=58118E89F3A912897C070ADBF76221572C52609D
+
+- name: update apt
+  apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-xenial main' state=present
+
+- name: Install docker
+  apt: pkg={{item}}  state=present update_cache=yes
+  with_items:
+     - docker-engine=1.11.0-0~xenial
+  notify: Start {{ role_name }}
+
+- name: Add docker insecure parameter
+  replace:
+    backup: yes
+    dest: /lib/systemd/system/docker.service
+    regexp: '(^ExecStart=.*\D)$'
+    replace: '\1 --insecure-registry {{ groups["docker_registry"][0] }}:5000'
+  register: result
+  notify: Start {{ role_name }}
+
+- name: Ensure systemd is reloaded if weave.service has changed
+  shell: systemctl daemon-reload
+  when: result|changed

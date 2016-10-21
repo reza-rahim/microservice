@@ -1,0 +1,7 @@
+---
+
+- name: restart weave
+  service: name=weave.target  state=restarted enabled=yes
+
+- name: restart scope
+  command: scope launch

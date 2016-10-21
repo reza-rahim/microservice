@@ -1,0 +1,12 @@
+---
+
+flocker_control_service_groupname: flocker_control
+flocker_agents_groupname: slave
+flocker_client_groupname: flocker_client
+flocker_docker_plugin_groupname: flocker_docker_plugin
+
+
+flocker_cluster_name: flocker_cluster
+flocker_local_tempdir: /var/lib/flocker/{{ flocker_cluster_name }}
+flocker_control: node1
+flocker_client: flockerctl
