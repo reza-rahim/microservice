@@ -1,7 +1,8 @@
-FROM node:4-onbuild
+FROM base_ubuntu
 
-RUN apt-get update
-RUN apt-get -y install iputils-ping netcat curl iproute2
+RUN apt-get install -y python-software-properties
+RUN curl -sL https://deb.nodesource.com/setup_6.x |  bash -
+RUN apt-get install -y nodejs
 
 RUN mkdir /app
 

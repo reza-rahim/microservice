@@ -14,8 +14,18 @@ cd docker
 ### create docker images
 sudo docker build -t $DOCKER_REGISTRY/$APP_GROUP/$APP_ID:$TAG .
 
+if [ "$?" != "0" ]; then
+    echo "Failed : docker build -t $DOCKER_REGISTRY/$APP_GROUP/$APP_ID:$TAG ."
+    exit 1
+fi
+
 #### push the image  to docker registry
 sudo docker push $DOCKER_REGISTRY/$APP_GROUP/$APP_ID:$TAG
+
+if [ "$?" != "0" ]; then
+    echo "Failed : docker push $DOCKER_REGISTRY/$APP_GROUP/$APP_ID:$TAG"
+    exit 1
+fi
 
 
 ### deploy the app to marathon
