@@ -26,7 +26,7 @@ vagrant ssh mgmt
 - Deploy the nginx, Node.js and Mongo Db Application <br>
 ./mesos_deploy_app.sh
 
-Application UI: http://10.0.15.11:9080/
+  Application UI: http://10.0.15.11:9080/
 
 - Scale up Node.js app from 2 instance to 3 instance<br>
 ./mesos_deploy_scaleup_app.sh
