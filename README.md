@@ -36,6 +36,6 @@ source /etc/bash.bashrc <br>
 ./mesos_move_db.sh
 
 - Start the weave scope <br>
-./mesos_weace_scope.sh
+./mesos_weave_scope.sh
 
   Weave Scope UI: 10.0.15.10:4040 
