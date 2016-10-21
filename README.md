@@ -24,6 +24,7 @@ vagrant ssh mgmt
   matathon: http://10.0.15.11:8080/
 
 - Deploy the nginx, Node.js and Mongo Db Application <br>
+source /etc/bash.bashrc
 ./mesos_deploy_app.sh
 
   Application UI: http://10.0.15.11:9080/
