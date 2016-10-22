@@ -5,7 +5,7 @@
 ##Instruction:
 1. **Clone the git**
 
-git clone https://github.com/reza-rahim/microservice
+  git clone https://github.com/reza-rahim/microservice
 
 2. **Change the dir**
 
