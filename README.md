@@ -5,6 +5,8 @@
 ##Instruction:
 1. **Clone the git**
 
+  Vagrant 1.8.6 is required.
+
   git clone https://github.com/reza-rahim/microservice
 
 2. **Change the dir**
