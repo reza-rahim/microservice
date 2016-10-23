@@ -122,7 +122,7 @@ For prodcution system, log could be aggregated using [ELK Stack](https://www.ela
 
 **Mesos and Marathon** related error could be found on the Mesos UI.
 
-**mesos-master, mesos-slave and marathon** runs a systemd service. `journalctl` can be used view thier log files. 
+**mesos-master, mesos-slave and marathon** runs as systemd service. `journalctl` can be used view their log files. 
 
 `journalctl -u mesos-master`
 
