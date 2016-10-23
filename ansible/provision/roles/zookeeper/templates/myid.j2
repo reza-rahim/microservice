@@ -1,3 +1,1 @@
-{% for node in groups['zookeeper'] %}
-{% if node == inventory_hostname %}{{ loop.index }}{% endif %}
-{% endfor %}
+{{ myid }}
