@@ -1,0 +1,6 @@
+- hosts: all
+  gather_facts: True
+  become: yes
+  roles:
+
+        - { role: python }
