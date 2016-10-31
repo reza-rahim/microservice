@@ -18,6 +18,8 @@ export cloud_provider=aws
 
 cd ansible/provision
 
+ansible-playbook install_pyhton.yml -i inventory.ini
+
 ansible-playbook mesos_build_cluster.yml -i inventory.ini -e "cloud_provider=$cloud_provider" -e "aws_region=$aws_region" -e "aws_zone=$aws_zone" -e "aws_access_key_id=$AWS_ACCESS_KEY_ID" -e "aws_secret_access_key=AWS_SECRET_ACCESS_KEY"
 
 sleep 30
