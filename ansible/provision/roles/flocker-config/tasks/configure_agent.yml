@@ -57,6 +57,15 @@
     - { src: 'agent.yml.j2', dest: '/etc/flocker/agent.yml', mode: '600' }
     - { src: 'authorized_keys', dest: '/root/.ssh/authorized_keys', mode: '600' }
     - { src: 'id_rsa', dest: '/etc/flocker/id_rsa_flocker', mode: '600' }
+  when:  cloud_provider is not defined 
+  notify: restart flocker node
+
+- name: Copy flocker agent config
+  template: src="{{ item.src }}" dest="{{ item.dest }}" mode="{{ item.mode }}"
+  register: result
+  with_items:
+    - { src: 'aws_agent.yml.j2', dest: '/etc/flocker/agent.yml', mode: '600' }
+  when:  (cloud_provider is  defined and cloud_provider == "aws")
   notify: restart flocker node
 
 - name: Ensure systemd is reloaded if any config  changed

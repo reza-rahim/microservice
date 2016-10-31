@@ -1,0 +1,14 @@
+"version": 1
+"control-service":
+   "hostname": "{{ groups['flocker_control'][0] }}"
+   "port": 4524
+
+# The dataset key below selects and configures a dataset backend (see below: aws/openstack/etc).
+# All nodes will be configured to use only one backend
+
+dataset:
+   backend: aws
+   region: "{{ aws_region }}"
+   zone: "{{ aws_zone }}"
+   access_key_id: "{{ aws_access_key_id }}"
+   secret_access_key: "{{ aws_secret_access_key }}"
