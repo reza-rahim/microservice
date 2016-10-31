@@ -1,0 +1,22 @@
+{
+  "cpus": {{ cpus }},
+  "mem": {{ memory }},
+  "instances": {{ instances }},
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "{{ groups["docker_registry"][0] }}:5000/{{ app_group }}/{{ app_id }}:{{ tag }}",
+      "network": "HOST",
+      "parameters": [
+                 { "key": "hostname", "value": "{{ app_id }}.weave.local" },
+                 { "key": "log-driver", "value": "syslog" },
+                 { "key": "log-opt", "value": "tag=registry" }
+
+      ],
+      "forcePullImage":false
+    }
+  },
+   "constraints": [
+      ["slavetype", "CLUSTER", "{{ slavetype }}"]
+   ]
+}
