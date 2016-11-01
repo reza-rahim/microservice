@@ -4,7 +4,10 @@
 
 **Use Vagrant 1.8.6 or up**
 
+[**Instruction for Meosos Deployment On Vagrant:**](https://github.com/reza-rahim/microservice/blob/master/MESOS-VAGRANT.md
+
 ##Instruction:
+  
 1. **Clone the git**
 
    `git clone https://github.com/reza-rahim/microservice`
