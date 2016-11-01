@@ -1,11 +1,12 @@
 # Microservice Framework - Mesos/Marathon, Docker, Weave and Flocker
 
-[**Youtube Video for Meosos based Deployment On Vagrant:**](https://youtu.be/-AMdZjGXMCo)
 
-**Use Vagrant 1.8.6 or up**
+**Vagrant** (1.8.6 or up)
+1. [**Youtube Video for Meosos based Deployment On Vagrant**](https://youtu.be/-AMdZjGXMCo)
 
-[**Instruction for Meosos based Deployment On Vagrant:**](https://github.com/reza-rahim/microservice/blob/master/MESOS-VAGRANT.md)
+2. [**Instruction for Meosos based Deployment On Vagrant:**](https://github.com/reza-rahim/microservice/blob/master/MESOS-VAGRANT.md)
 
+**AWS**
   
 ## Overview of the Framework
 
