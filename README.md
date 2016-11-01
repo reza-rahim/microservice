@@ -5,9 +5,14 @@
 
 1. [**Youtube Video for Meosos based Deployment On Vagrant**](https://youtu.be/-AMdZjGXMCo)
 
-2. [**Instruction for Meosos based Deployment On Vagrant:**](https://github.com/reza-rahim/microservice/blob/master/MESOS-VAGRANT.md)
+2. [**Instruction for Meosos based Deployment On Vagrant**](https://github.com/reza-rahim/microservice/blob/master/MESOS-VAGRANT.md)
 
 **AWS**
+
+  1. [**Youtube Video for Meosos based Deployment On AWS**]
+
+  2. [**Instruction for Meosos based Deployment On AWS**](https://github.com/reza-rahim/microservice/blob/master/MESOS-AWS.md)
+  
   
 ## Overview of the Framework
 
