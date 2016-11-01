@@ -9,9 +9,9 @@
 
 **AWS**
 
-  1. [**Youtube Video for Meosos based Deployment On AWS**]
+  1. [**Youtube Video for Mesos based Deployment On AWS**]
 
-  2. [**Instruction for Meosos based Deployment On AWS**](https://github.com/reza-rahim/microservice/blob/master/MESOS-AWS.md)
+  2. [**Instruction for Mesos based Deployment On AWS**](https://github.com/reza-rahim/microservice/blob/master/MESOS-AWS.md)
   
   
 ## Overview of the Framework
