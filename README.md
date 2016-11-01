@@ -7,11 +7,15 @@
 
 2. [**Instruction for Mesos Based Deployment On Vagrant**](https://github.com/reza-rahim/microservice/blob/master/MESOS-VAGRANT.md)
 
+3. [**Instruction for KUBERNETES Based Deployment On Vagrant**] 
+
 **AWS**
 
   1. [**Youtube Video for Mesos based Deployment On AWS**]
 
   2. [**Instruction for Mesos based Deployment On AWS**](https://github.com/reza-rahim/microservice/blob/master/MESOS-AWS.md)
+  
+  3. [**Instruction for KUBERNETES based Deployment On AWS**]
   
   
 ## Overview of the Framework
