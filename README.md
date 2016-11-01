@@ -1,58 +1,18 @@
 # Microservice Framework - Mesos/Marathon, Docker, Weave and Flocker
 
-**Youtube Video: https://youtu.be/-AMdZjGXMCo**
 
-**Use Vagrant 1.8.6 or up**
+**Vagrant** (1.8.6 or up)
 
-##Instruction:
-1. **Clone the git**
+1. [**Youtube Video for Mesos Based Deployment On Vagrant**](https://youtu.be/-AMdZjGXMCo)
 
-   `git clone https://github.com/reza-rahim/microservice`
+2. [**Instruction for Mesos Based Deployment On Vagrant**](https://github.com/reza-rahim/microservice/blob/master/MESOS-VAGRANT.md)
 
-2. **Change the dir**
+**AWS**
 
-   `cd microservice`
+  1. [**Youtube Video for Mesos based Deployment On AWS**]
 
-3. **Bring Vagrant machines up**
-
-   `vagrant up`
-
-4. **Log in to mgmt vagrant box**
-
-   `vagrant ssh mgmt`
-
-5. **Build the mesos/marathon cluster**
-
-   `./mesos_build_cluster.sh`
-
-  1. mesos ui: http://10.0.15.11:5050/  
-  2. matathon: http://10.0.15.11:8080/
-
-6. **Deploy the nginx, Node.js and Mongo Db Application**
-
-   ```
-   source /etc/bash.bashrc
-
-   ./mesos_deploy_app.sh
-    ```
-  1. Application UI: http://10.0.15.11:9080/
-
- **At this point, you can move to `Overview of the Framework`. After understanding the system, you can comeback and perform the next three steps**
- 
-7. **Scale up Node.js app from 2 instance to 3 instance**
- 
-   `./mesos_deploy_scaleup_app.sh`
-   
-
-8. **Move the Mongo DB from 10.0.15.12 to 10.0.15.13, the data movement is done by flocker with ZFS file system.**
-
-   `./mesos_move_db.sh`
-
-9. **Start the weave scope**
-
-   `./mesos_weave_scope.sh`
-
-  1. Weave Scope UI: http://10.0.15.10:4040 
+  2. [**Instruction for Mesos based Deployment On AWS**](https://github.com/reza-rahim/microservice/blob/master/MESOS-AWS.md)
+  
   
 ## Overview of the Framework
 
@@ -85,7 +45,7 @@
 
 There are four vagrant machines 
 
-1. **10.0.16.10(mgmt):** `mgmt` acts as cluster management node. It is used for running various Ansible build and deploy scripts such as building cluster, building Docker images or deploying Marathon jobs.
+1. **10.0.15.10(mgmt):** `mgmt` acts as cluster management node. It is used for running various Ansible build and deploy scripts such as building cluster, building Docker images or deploying Marathon jobs.
 1. **10.0.15.11(node1):** `node1` holds Zookeeper, Mesos Master and Marathon. It serves as a Mesos slave as well. It also runs special Docker Container called registry. The registry serves as [local Docker registry](https://docs.docker.com/registry/). All application Docker containers get pushed into the local registry before get deployed on the cluster.   
 1. **10.0.15.12(node2)** `node3`serves only as a Mesos slaves. It runs application containers.   
 1. **10.0.15.13(node3)** `node` serves only as a Mesos slaves. It runs application containers.  
