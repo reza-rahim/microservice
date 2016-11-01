@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
   config.vm.define :mgmt do |mgmt_config|
       mgmt_config.vm.box = "bento/ubuntu-16.04"
       mgmt_config.vm.hostname = "mgmt"
-      mgmt_config.vm.network :private_network, ip: "10.0.16.10"
+      mgmt_config.vm.network :private_network, ip: "10.0.15.10"
       mgmt_config.vm.provider "virtualbox" do |vb|
         vb.memory = "1024"
       end
