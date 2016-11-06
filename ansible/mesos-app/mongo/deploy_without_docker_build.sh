@@ -11,4 +11,4 @@ export SLAVETYPE=app
 export DB_SERVER=10.0.15.13
 
 cd ansible
-ansible-playbook deploy.yml -e "memory=$MEMORY" -e "cpus=$CPUS" -e "instances=$INSTANCES" -e "app_group=$APP_GROUP" -e "app_id=$APP_ID" -e "tag=$TAG" -e "db_size=$DB_SIZE" -e "slavetype=$SLAVETYPE" -e "db_server=$DB_SERVER"
+ansible-playbook deploy.yml  -i "localhost," -e "memory=$MEMORY" -e "cpus=$CPUS" -e "instances=$INSTANCES" -e "app_group=$APP_GROUP" -e "app_id=$APP_ID" -e "tag=$TAG" -e "db_size=$DB_SIZE" -e "slavetype=$SLAVETYPE" -e "db_server=$DB_SERVER"  -e "marathon=$MARATHON" -e "docker_registry=$DOCKER_REGISTRY"
