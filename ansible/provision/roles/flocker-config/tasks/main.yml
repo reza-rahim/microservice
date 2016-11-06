@@ -6,6 +6,9 @@
 - include: configure_agent.yml
   when: "'{{ flocker_agents_groupname }}'  in group_names"
 
+- include: configure_agent.yml
+  when: "'{{ flocker_client_groupname }}'  in group_names"
+
 - include: configure_client.yml
   when: "'{{ flocker_client_groupname }}'  in group_names"
 
