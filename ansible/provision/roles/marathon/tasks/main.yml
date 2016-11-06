@@ -16,3 +16,17 @@
 - name: Ensure systemd is reloaded if any config  changed
   shell: systemctl daemon-reload
   when: result|changed
+
+- name: Create MARATHON env variable
+  lineinfile:
+      dest=/etc/bash.bashrc
+      line="export MARATHON={{ groups['marathon'][0] }}:8080"
+      state=present
+  when: ansible_os_family == "Debian"
+
+- name: Create MARATHON env variable
+  lineinfile:
+      dest=/etc/bashrc
+      line="export MARATHON={{ groups['marathon'][0] }}:8080"
+      state=present
+  when: ansible_os_family == "RedHat"

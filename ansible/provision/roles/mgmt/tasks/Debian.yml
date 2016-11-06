@@ -12,8 +12,3 @@
       line="export DOCKER_REGISTRY={{ groups['docker_registry'][0] }}:5000"
       state=present
 
-- name: Create MARATHON env variable
-  lineinfile:
-      dest=/etc/bash.bashrc
-      line="export MARATHON={{ groups['marathon'][0] }}:8080"
-      state=present
