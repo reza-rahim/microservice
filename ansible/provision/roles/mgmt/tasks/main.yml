@@ -1,10 +1,5 @@
 ---
 
-- name: Creates directory /etc/ansible/hosts
-  file: path=/etc/ansible/hosts  state=directory
-
-- name: Copy inventory.ini to /etc/ansible/hosts
-  copy: src=inventory.ini dest=/etc/ansible/hosts
 
 - include: Debian.yml
   when: ansible_os_family == "Debian"

@@ -22,6 +22,7 @@
       dest=/etc/bash.bashrc
       line="export MARATHON={{ groups['marathon'][0] }}:8080"
       state=present
+  delegate_to: 127.0.0.1
   when: ansible_os_family == "Debian"
 
 - name: Create MARATHON env variable
@@ -29,4 +30,5 @@
       dest=/etc/bashrc
       line="export MARATHON={{ groups['marathon'][0] }}:8080"
       state=present
+  delegate_to: 127.0.0.1
   when: ansible_os_family == "RedHat"
