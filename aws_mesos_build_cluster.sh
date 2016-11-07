@@ -25,3 +25,6 @@ ansible-playbook mesos_build_cluster.yml -i inventory.ini -e "cloud_provider=$cl
 sleep 30
 
 ansible-playbook mesos_system_services.yml -i inventory.ini
+
+ansible-playbook haproxy.yml -i inventory.ini
+
