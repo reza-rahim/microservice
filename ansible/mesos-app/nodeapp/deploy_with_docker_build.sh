@@ -33,7 +33,7 @@ while [  $TAG_LIST_CNT -gt $COUNTER ]; do
         `curl -X DELETE  $DOCKER_REGISTRY/v2/$APP_GROUP/$APP_ID/manifests/$SHA`
 
         let COUNTER=$COUNTER+1
-        echo "ansible-playbook remove_image.yml -e \"image_name=$DOCKER_REGISTRY/$APP_GROUP/$APP_ID:$OLDTAG\" " >> remove_images.sh
+        echo "ansible-playbook remove_image.yml -i "localhost," -e \"image_name=$DOCKER_REGISTRY/$APP_GROUP/$APP_ID:$OLDTAG\" " >> remove_images.sh
 done
 
 cd docker 

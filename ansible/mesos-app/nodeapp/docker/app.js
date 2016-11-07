@@ -10,7 +10,6 @@ var users = require('./routes/users');
 
 var mongo = require('mongodb');
 var monk = require('monk');
-var db = monk('mongo:27017/node');
 
 var app = express();
 
@@ -30,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Make our db accessible to our router
 app.use(function(req,res,next){
+    var db = monk('mongo:27017/node');
     req.db = db;
     next();
 });
