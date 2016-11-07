@@ -9,7 +9,6 @@
       "network": "BRIDGE",
       "parameters": [
                  { "key": "hostname", "value": "{{ app_id }}.weave.local" },
-                 { "key": "env", "value": "WEAVE_CIDR={{ static_ip }}" },
                  { "key": "log-driver", "value": "syslog" },
                  { "key": "log-opt", "value": "tag={{ app_id }}" },
                  { "key": "volume-driver", "value": "flocker" },
