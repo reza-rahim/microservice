@@ -1,0 +1,10 @@
+- name: create sshKey
+  ec2_key: name="{{ sshKey }}" region="{{ region }}"
+  register: keypair
+
+- name: write the key to a file
+  copy:
+    dest: pemfiles/sshKey.pem
+    content: "{{ keypair.key.private_key }}"
+    mode: 0600
+  when: keypair.changed

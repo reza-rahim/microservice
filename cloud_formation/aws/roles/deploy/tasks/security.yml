@@ -1,0 +1,75 @@
+---
+
+- name: openvpn security group
+  local_action:
+    module: ec2_group
+    name: openvpn
+    description: allow http and https access
+    region: "{{ region }}"
+    vpc_id: "{{ vpc_id }}"
+    rules:
+      - proto: udp
+        from_port: 1194
+        to_port: 1194
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 943
+        to_port: 943
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 443
+        to_port: 443
+        cidr_ip: 0.0.0.0/0
+
+- name: web security group
+  local_action:
+    module: ec2_group
+    name: web
+    description: allow http and https access
+    region: "{{ region }}"
+    vpc_id: "{{ vpc_id }}"
+    rules:
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 443
+        to_port: 443
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 444
+        to_port: 444
+        cidr_ip: 0.0.0.0/0
+- name: ssh security group
+  local_action:
+    module: ec2_group
+    name: ssh
+    description: allow ssh access
+    region: "{{ region }}"
+    vpc_id: "{{ vpc_id }}"
+    rules:
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0
+- name: inbound security group
+  local_action:
+    module: ec2_group
+    name: inbound
+    description: allow outbound connections to the internet
+    region: "{{ region }}"
+    vpc_id: "{{ vpc_id }}"
+    rules:
+      - proto: all
+        cidr_ip: 0.0.0.0/0
+- name: outbound security group
+  local_action:
+    module: ec2_group
+    name: outbound
+    description: allow outbound connections to the internet
+    region: "{{ region }}"
+    vpc_id: "{{ vpc_id }}"
+    rules_egress:
+      - proto: all
+        cidr_ip: 0.0.0.0/0

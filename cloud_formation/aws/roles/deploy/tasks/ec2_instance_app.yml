@@ -1,0 +1,26 @@
+---
+
+- name: Get the ubuntu  AMI
+  ec2_ami_search: distro=ubuntu release=xenial virt=hvm region={{ region }} store=ebs-ssd
+  register: ubuntu_image
+
+- name: start the app instances in private subnet "{{ item }}"
+  local_action:
+    module: ec2
+    region: "{{ region }}"
+    image: "{{ ubuntu_image.ami }}"
+    instance_type: "{{ instance_type }}"
+    key_name: "{{ sshKey }}"
+    group: [inbound, outbound]
+    instance_tags: { Name: appServer, type: "{{ item }}", env: "{{ env }}" }
+    private_ip: "{{ item }}"
+    exact_count: 1
+    count_tag:  { type : "{{ item }}" }
+    
+    vpc_subnet_id: "{{ vpc.subnets[1].id}}"
+    volumes:
+      - device_name: /dev/sda1
+        device_type: "{{ device_type }}"
+        volume_size: "{{ volume_size }}"
+        delete_on_termination: true
+    wait: yes  

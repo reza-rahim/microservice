@@ -1,0 +1,38 @@
+- name: create a vpc
+  local_action:
+    module: ec2_vpc
+    region: "{{ region }}"
+    internet_gateway: True
+    resource_tags: { Name: "{{ project }}", env: "{{ env }}" }
+    cidr_block: 10.0.0.0/16
+    subnets:
+      - cidr: "{{ public_subnet }}"
+        az: "{{ az }}"
+        resource_tags:
+          env: "{{ env }}"
+          tier: web
+          Name: "{{ env }}_public_subnet"
+      - cidr: "{{ private_subnet }}"
+        az: "{{ az }}"
+        resource_tags:
+          env: "{{ env }}"
+          tier: db
+          Name: "{{ env }}_private_subnet"
+    route_tables:
+      - subnets:
+          - "{{ public_subnet }}"
+        routes:
+          - dest: 0.0.0.0/0
+            gw: igw
+  register: vpc
+
+- set_fact: vpc_id={{ vpc.vpc_id }}
+
+## this is available at ansible 2.2
+#- name: create nat gateway for private_subnet
+#  ec2_vpc_nat_gateway:
+#    state: present
+#    subnet_id: "{{ vpc.subnets[1].id}}"
+#    wait: yes
+#    region: "{{ region }}"
+#  register: new_nat_gateway

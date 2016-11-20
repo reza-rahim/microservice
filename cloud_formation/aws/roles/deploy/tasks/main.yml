@@ -1,0 +1,11 @@
+---
+
+- include: vpc.yml
+- include: ssh.yml
+- include: security.yml
+- include: ec2_instance_mgmt.yml
+
+- include: ec2_instance_app.yml
+  with_items:
+    - "{{ private_ipaddress }}"
+

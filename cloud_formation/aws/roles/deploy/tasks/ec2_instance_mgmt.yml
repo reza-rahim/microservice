@@ -1,0 +1,23 @@
+---
+
+- name: Get the ubuntu  AMI
+  ec2_ami_search: distro=ubuntu release=xenial virt=hvm region={{ region }} store=ebs-ssd
+  register: ubuntu_image
+
+
+- name: start the mgmt instances in public subnet
+  local_action:
+    module: ec2
+    region: "{{ region }}"
+    image: "{{ ubuntu_image.ami }}"
+    instance_type: "{{ instance_type }}"
+    key_name: "{{ sshKey }}"
+    group: [ ssh, outbound , web]
+    instance_tags: { Name: mgmtServer, type: mgmt, env: "{{ env }}" }
+    exact_count: 1
+    count_tag: { type: mgmt }
+    assign_public_ip: "true"
+    vpc_subnet_id: "{{ vpc.subnets[0].id}}"
+    private_ip: 10.0.16.10
+    wait: yes
+  register: ec2

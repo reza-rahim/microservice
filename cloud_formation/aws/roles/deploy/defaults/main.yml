@@ -1,0 +1,21 @@
+region: us-east-1
+az: us-east-1b
+instance_type: t2.micro
+lbcount: 1 
+appcount: 1 
+env: prod
+project: bibs
+#ubuntu_image: ami-40d28157
+sshKey: sshKey
+cidr_block: 10.0.0.0/16
+public_subnet: 10.0.16.0/24
+private_subnet: 10.0.17.0/24
+device_type: gp2
+volume_size: 8
+test: private
+
+
+private_ipaddress:
+  - 10.0.17.11
+  - 10.0.17.12
+  - 10.0.17.13

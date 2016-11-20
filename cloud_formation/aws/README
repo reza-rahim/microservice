@@ -1,0 +1,11 @@
+
+ssh-agent bash
+ssh-add pemfiles/sshKey.pem
+ssh -i pemfiles/sshKey.pem ubuntu@<public ip of mgmtServer>
+
+ssh -i pemfiles/sshKey.pem ubuntu@<public ip of mgmtServer> -L 5050:10.0.17.11:5050 -L 8080:10.0.17.11:8080 -L 9080:10.0.17.11:9080
+
+localhost:5050
+localhost:8080
+localhost:9080
+

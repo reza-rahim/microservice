@@ -1,0 +1,47 @@
+---
+- hosts: tag_Name_mgmtServer
+  sudo: yes
+  gather_facts: no
+
+  tasks:
+  
+  - name: install pyhton
+    raw: apt-get -y install python
+
+  - name: install git
+    apt: name=git state=installed update_cache=yes
+
+  - name: install software-properties-common
+    apt: name=software-properties-common  state=installed update_cache=yes
+
+  - name: install python pip
+    apt: name={{ item }} 
+    with_items:
+      - python-pip
+      - python-dev
+      - libssl-dev
+
+  #- name: install ansible
+  #  command: pip install --upgrade pip
+
+  - name: install ansible
+    pip: name=ansible version=1.9.3
+    
+  - name: install httplib2
+    pip: name=httplib2 version=0.7.7
+
+  - name: install boto
+    apt: name=python-boto state=installed update_cache=yes
+
+  - name: copy sshconfig 
+    copy: src=sshConfig dest=~ubuntu/.ssh/config
+
+  - name: get the git repo
+    git: repo=https://github.com/reza-rahim/microservice dest=~ubuntu/microservice update=no
+
+  - name: change the inventory file
+    command: cp ~ubuntu/microservice/ansible/provision/cloud_inventory.ini ~ubuntu/microservice/ansible/provision/inventory.ini
+
+  - name: change th permission 
+    #command: chown -R ubuntu ~ubuntu/microservice
+    file: dest=~ubuntu/microservice owner=ubuntu  recurse=yes
