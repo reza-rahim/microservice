@@ -3,19 +3,10 @@
 - name: add analytic user
   command: sudo useradd analytics -u 9000 -d /home/analytics  -m  creates=/home/analytics
 
-- name: Creates directory /etc/hadoop/
+- name: Creates directory /data dir for hdfs
   file: path={{ item.path }} state=directory owner=analytics
   with_items:
-    - { path: '/etc/hadoop/' }
     - { path: '/data/' }
-  when: "'hdfs_nn' in group_names or 'hdfs_dn' in group_names or 'hdfs_cli' in group_names"
-
-- name: Copy hadoop config files
-  template: src="{{ item.src }}" dest="/etc/hadoop/{{ item.dest }}" mode="{{ item.mode }}"
-  with_items:
-    - { src: 'hdfs.core-site.xml.j2', dest: 'core-site.xml', mode: '744' }
-    - { src: 'hdfs.hdfs-site.xml.j2', dest: 'hdfs-site.xml', mode: '744'}
-
   when: "'hdfs_nn' in group_names or 'hdfs_dn' in group_names or 'hdfs_cli' in group_names"
 
 - name: Creates spark directory
@@ -35,19 +26,3 @@
     - { src: 'spark.spark-env.sh.j2', dest: 'spark-env.sh', mode: '755' }
   when: "'spark_master' in group_names or 'spark_slave' in group_names"
 
-- name: Creates zeppelin directory
-  file: path={{ item.path }} state=directory owner=analytics
-  with_items:
-    - { path: '/etc/zeppelin' }
-  when: "'zeppelin' in group_names"
-
-- name: Copy zeppelin files
-  template: src="{{ item.src }}" dest="/etc/zeppelin/{{ item.dest }}" mode="{{ item.mode }}"
-  with_items:
-    - { src: 'zeppelin.configuration.xsl.j2', dest: 'configuration.xsl', mode: '755' }
-    - { src: 'zeppelin.interpreter-list.j2', dest: 'interpreter-list', mode: '755' }
-    #- { src: 'zeppelin.log4j.properties', dest: 'log4j.properties', mode: '755' }
-    - { src: 'zeppelin.shiro.ini.j2', dest: 'shiro.ini', mode: '755' }
-    - { src: 'zeppelin.zeppelin-env.sh.j2', dest: 'zeppelin-env.sh', mode: '755' }
-    - { src: 'zeppelin.zeppelin-site.xml.j2', dest: 'zeppelin-site.xml', mode: '755' }
-  when: "'zeppelin' in group_names"

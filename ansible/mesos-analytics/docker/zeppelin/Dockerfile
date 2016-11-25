@@ -18,6 +18,9 @@ RUN wget http://apache.cs.utah.edu/zeppelin/zeppelin-$ZEPPELIN_VERSION/zeppelin-
 
 RUN chown -R  spark /usr/local
 
+COPY zeppelin-env.sh /usr/local/zeppelin/conf/zeppelin-env.sh
+COPY zeppelin-site.xml /usr/local/zeppelin/conf/zeppelin-site.xml
+
 EXPOSE 8080
 
 CMD ["zeppelin.sh"]

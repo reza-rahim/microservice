@@ -1,2 +1,2 @@
-docker_image: hdfs-base
+docker_image: hdfs-dn
 tag: 2.7

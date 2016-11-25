@@ -14,7 +14,7 @@
        "image": "{{ docker_registry }}/{{ docker_image }}:{{ tag }}",
        "network": "{{ network }}",
        "parameters": [ {{ parameters }} ],
-       "forcePullImage":false
+       "forcePullImage": true
     }
   }
 }

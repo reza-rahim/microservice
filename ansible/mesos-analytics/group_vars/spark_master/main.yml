@@ -9,11 +9,6 @@ network: HOST
 
 volumes: |
     {
-        "containerPath": "/usr/local/spark/conf",
-        "hostPath": "/etc/spark",
-        "mode": "RW"
-    },
-    {
         "containerPath": "/opt/spark/",
         "hostPath": "/opt/spark/",
         "mode": "RW"
@@ -21,7 +16,12 @@ volumes: |
      
      
 parameters: |
-    { "key": "env", "value": "SPARK_MASTER_IP={{ inventory_hostname }}" },
+    { "key": "env", "value": "SPARK_MASTER_IP=sm1" },
+    { "key": "env", "value": "SPARK_LOCAL_DIRS=/opt/spark/data" },
+    { "key": "env", "value": "SPARK_WORKER_DIR=/opt/spark/work" },
+    { "key": "env", "value": "SPARK_MASTER_WEBUI_PORT=8090" },
+    { "key": "env", "value": "SPARK_WORKER_MEMORY=1024m" },
+    { "key": "env", "value": "SPARK_DAEMON_JAVA_OPTS=-Dspark.deploy.recoveryMode=FILESYSTEM -Dspark.deploy.recoveryDirectory=/opt/spark/recovery" },
     { "key": "log-driver", "value": "syslog" },
     { "key": "log-opt", "value": "tag={{ app_id }}" }
 
