@@ -1,4 +1,4 @@
-FROM /spark-base:2.0
+FROM 10.0.15.11:5000/spark-base:2.0
 
 COPY spark-daemon.sh /usr/local/spark/sbin/spark-daemon.sh
 COPY docker-entry.sh /usr/local/spark/sbin/docker-entry.sh

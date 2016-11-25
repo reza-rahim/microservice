@@ -17,6 +17,7 @@
       state=present
   when: "'hdfs_cli' in  group_names and ansible_os_family == 'RedHat'"
 
+
 - name: Create hdfs alias
   lineinfile:
       dest=/etc/bash.bashrc

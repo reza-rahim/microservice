@@ -23,7 +23,7 @@ volumes: |
 parameters: |
     { "key": "env", "value": "SPARK_MASTER_IP={{ inventory_hostname }}" },
     { "key": "log-driver", "value": "syslog" },
-    { "key": "log-opt", "value": "tag=hdfs-nn" }
+    { "key": "log-opt", "value": "tag={{ app_id }}" }
 
 
 constraints: UNIQUE

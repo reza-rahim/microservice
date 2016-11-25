@@ -1,5 +1,4 @@
 app_group: analytics/hadoop
-app_id: hdfs-dn
 docker_image: hdfs-dn
 tag: 2.7 
 cpus: 0.1 
@@ -24,4 +23,4 @@ volumes: |
 
 parameters: |
      { "key": "log-driver", "value": "syslog" },
-     { "key": "log-opt", "value": "tag=hdfs-dn" }
+     { "key": "log-opt", "value": "tag={{ app_id }}" }
