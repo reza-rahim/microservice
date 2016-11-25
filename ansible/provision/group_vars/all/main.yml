@@ -1,8 +1,5 @@
 #####
-java_version: "8"
-
-#####
-mesos_cluster_name: TestCluster
+mesos_cluster_name: MesosCluster
 
 #### zookeeper setting
 zookeeper_tickTime: 2000
@@ -13,24 +10,6 @@ zookeeper_dataDir: /var/lib/zookeeper
 zookeeper_autopurge_purgeInterval: 24
 zookeeper_autopurge_snapRetainCount: 3
 
-
-##### system marathon service parameter
 docker_registry_cpus: 0.1
 docker_registry_mem: 64
 
-marathon_lb_cpus: 0.1
-marathon_lb_mem: 64
-
-logging_elasticsearch_cpus: 0.2 
-logging_elasticsearch_mem: 256
-
-logging_logstash_cpus: 0.2
-logging_logstash_mem: 256
-
-logging_kibana_cpus: 0.2
-logging_kibana_mem: 128
-
-## System Service port
-logging_kibana_port: 10001
-
-## appliation Service port
