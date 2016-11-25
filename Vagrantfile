@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
         node.vm.network :private_network, ip: "10.0.15.1#{i}"
         #node.vm.network "forwarded_port", guest: 80, host: "808#{i}"
         node.vm.provider "virtualbox" do |vb|
-          vb.memory = "2048"
+          vb.memory = "2560"
         end
         node.vm.provision :shell, path: "scripts/bootstrap-node.ubuntu.sh"
     end

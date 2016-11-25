@@ -1,0 +1,34 @@
+app_group: analytics/spark
+docker_image: spark-worker
+tag: 2.0 
+cpus: 0.1 
+mem: 256
+instances: 1
+
+network: HOST
+
+volumes: |
+    {
+       "containerPath": "/usr/local/spark/conf",
+       "hostPath": "/etc/spark",
+       "mode": "RW"
+    },
+    {
+       "containerPath": "/opt/spark/",
+       "hostPath": "/opt/spark/",
+       "mode": "RW"
+    }
+
+parameters: |
+    { "key": "env", "value": "SPARK_MASTER_IP= {{ spark_master }}" },
+    { "key": "env", "value": "SPARK_LOCAL_IP={{ inventory_hostname }}" },
+    { "key": "env", "value": "SPARK_LOCAL_HOSTNAME={{ inventory_hostname }}" },
+    { "key": "log-driver", "value": "syslog" },
+    { "key": "log-opt", "value": "tag={{ app_id }}" }
+
+constraints: UNIQUE
+
+spark_worker_memory: 1024m
+spark_local_dirs: /opt/spark/data
+spark_daemon_java_opts: "-Dspark.deploy.recoveryMode=FILESYSTEM -Dspark.deploy.recoveryDirectory=/opt/spark/recovery"
+spark_worker_dir: /opt/spark/work

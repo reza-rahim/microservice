@@ -1,0 +1,14 @@
+---
+
+- name: Create spark shell
+  lineinfile:
+      dest=/etc/bashrc
+      line="alias spark-shell='sudo docker run -u spark -w /home/spark -it  -e SPARK_LOCAL_IP={{ inventory_hostname }}  --net=host {{ docker_registry }}/{{ docker_image}}:{{ tag }}  --master spark://:7077'"
+  when: "'spark_shell' in  group_names
+
+- name: Create hdfs alias
+  lineinfile:
+      dest=/etc/bashrc
+      line="alias hdfs='sudo docker  run -it --net=host  -u hdfs -v /etc/hadoop/:/usr/local/hadoop/etc/hadoop/ -v /opt/hadoop:/opt/hadoop {{ docker_registry }}/{{ docker_image}}:{{ tag }}  /bin/bash'"
+      state=present
+  when: "'hdfs_cli' in  group_names

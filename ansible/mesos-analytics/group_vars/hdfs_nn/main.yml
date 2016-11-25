@@ -1,0 +1,28 @@
+app_group: analytics/hadoop
+app_id: hdfs-nn
+docker_image: hdfs-nn
+tag: 2.7 
+cpus: 0.1 
+mem: 128
+instances: 1
+
+
+constraints: UNIQUE
+
+network: HOST
+
+volumes: |
+     {
+        "containerPath": "/data",
+        "hostPath": "/data",
+        "mode": "RW"
+     },
+     {
+        "containerPath": "/usr/local/hadoop/etc/hadoop/",
+        "hostPath": "/etc/hadoop/",
+        "mode": "RW"
+     }
+
+parameters: |
+     { "key": "log-driver", "value": "syslog" },
+     { "key": "log-opt", "value": "tag=hdfs-nn" }

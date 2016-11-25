@@ -1,0 +1,20 @@
+{
+  "cpus": {{ cpus }},
+  "mem": {{ mem }},
+  "instances": {{ instances }},
+  {% if constraints == "UNIQUE" %}
+    "constraints":  [ ["hostname", "UNIQUE"], ["hostname", "LIKE","{{ inventory_hostname }}"] ],
+  {% else %}
+    "constraints":  [ ],
+  {% endif %} 
+  "container": {
+    "type": "DOCKER",
+    "volumes": [ {{ volumes }} ],
+    "docker": {
+       "image": "{{ docker_registry }}/{{ docker_image }}:{{ tag }}",
+       "network": "{{ network }}",
+       "parameters": [ {{ parameters }} ],
+       "forcePullImage":false
+    }
+  }
+}

@@ -1,0 +1,19 @@
+app_group: analytics/spark
+docker_image: zeppelin
+instances: 1
+tag: 2.0 
+cpus: 0.1 
+mem: 256
+
+network: HOST
+
+volumes: |
+     
+parameters: |
+    { "key": "log-driver", "value": "syslog" },
+    { "key": "log-opt", "value": "tag=hdfs-nn" }
+
+
+constraints: UNIQUE
+
+zeppelin_server_port: 8091
