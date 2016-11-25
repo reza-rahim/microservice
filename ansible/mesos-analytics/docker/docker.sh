@@ -10,7 +10,7 @@ cd ../spark-base
 ./build.sh
 cd ../spark-master
 ./build.sh
-cd ../spark-slave
+cd ../spark-worker
 ./build.sh
 cd ../zeppelin
 ./build.sh
