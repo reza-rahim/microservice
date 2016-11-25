@@ -1,1 +1,10 @@
 role_name: zookeeper
+
+#### zookeeper setting
+zookeeper_tickTime: 2000
+zookeeper_clientPort: 2181
+zookeeper_initLimit: 5
+zookeeper_syncLimit: 2
+zookeeper_dataDir: /var/lib/zookeeper
+zookeeper_autopurge_purgeInterval: 24
+zookeeper_autopurge_snapRetainCount: 3

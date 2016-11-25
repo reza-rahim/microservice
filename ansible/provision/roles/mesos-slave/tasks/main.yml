@@ -22,6 +22,7 @@
       state=present
   register: result
   notify: restart {{ role_name }}
+  when: noweave is not defined
 
 - name: Ensure systemd is reloaded if any config  changed
   shell: systemctl daemon-reload
