@@ -3,10 +3,10 @@
 - name: add analytic user
   command: sudo useradd analytics -u 9000 -d /home/analytics  -m  creates=/home/analytics
 
-- name: Creates directory /data dir for hdfs
+- name: Creates directory /data/dfs dir for hdfs
   file: path={{ item.path }} state=directory owner=analytics
   with_items:
-    - { path: '/data/' }
+    - { path: '/data/dfs' }
   when: "'hdfs_nn' in group_names or 'hdfs_dn' in group_names or 'hdfs_cli' in group_names"
 
 - name: Creates spark directory

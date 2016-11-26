@@ -11,8 +11,8 @@ network: HOST
 
 volumes: |
      {
-        "containerPath": "/data",
-        "hostPath": "/data",
+        "containerPath": "/data/dfs",
+        "hostPath": "/data/dfs",
         "mode": "RW"
      }
 

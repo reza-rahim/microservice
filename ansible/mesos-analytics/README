@@ -1,3 +1,6 @@
+### ./deploy.sh
+### ansible-playbook analytics.yml -i vagrant -e "docker_registry=$DOCKER_REGISTRY"
+### ./delete.sh
 
 ##### HDFS Namenode  #####
 http://10.0.15.11:50070/

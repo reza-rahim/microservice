@@ -5,15 +5,14 @@ cpus: 0.1
 mem: 128
 instances: 1
 
-
 constraints: UNIQUE
 
 network: HOST
 
 volumes: |
      {
-        "containerPath": "/data",
-        "hostPath": "/data",
+        "containerPath": "/data/dfs",
+        "hostPath": "/data/dfs",
         "mode": "RW"
      }
 
