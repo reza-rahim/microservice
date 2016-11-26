@@ -3,7 +3,7 @@
   "mem": {{ mem }},
   "instances": {{ instances }},
   {% if constraints == "UNIQUE" %}
-    "constraints":  [ ["hostname", "UNIQUE"], ["hostname", "LIKE","{{ inventory_hostname }}"] ],
+    "constraints":  [ ["hostname", "UNIQUE"], ["hostname", "LIKE","{{ target_host }}"] ],
   {% else %}
     "constraints":  [ ],
   {% endif %} 
