@@ -1,6 +1,4 @@
 cd docker
 ./docker.sh
 cd ..
-ansible-playbook analytics.yml -i hdfs.ini -e "marathon=$MARATHON" -e "docker_registry=$DOCKER_REGISTRY"
-ansible-playbook analytics.yml -i spark.ini -e "marathon=$MARATHON" -e "docker_registry=$DOCKER_REGISTRY"
-#ansible-playbook analytics.yml -i zep.ini -e "marathon=$MARATHON" -e "docker_registry=$DOCKER_REGISTRY"
+ansible-playbook analytics.yml -i vagrant -e "docker_registry=$DOCKER_REGISTRY"
