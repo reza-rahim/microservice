@@ -45,7 +45,7 @@ cat > /etc/hosts <<EOL
 # vagrant environment nodes
 127.0.0.1   localhost
 10.0.15.10  mgmt
-10.0.15.11  node1 zk1 nn1 sm1 zep1 hmst1 
+10.0.15.11  node1 zk1 nn1 sm1 zep1 hmst1 dkreg mrthn
 10.0.15.12  node2 dn01 sw01 hrs01 
 10.0.15.13  node3 dn02 sw02 hrs02
 10.0.15.14  node4 dn03 sw03 hrs03
