@@ -1,24 +1,6 @@
 ---
 
-- name: Copy rsyslog  file
-  template: src=mesos.conf dest=/etc/rsyslog.d/mesos.conf
-  notify: restart rsyslog
-
-- name: Copy 30-docker.conf
-  template: src=30-docker.conf.j2 dest=/etc/rsyslog.d/30-docker.conf
-  notify: restart rsyslog
-
-- name: Copy 35-remote-logging.conf.j2
-  template: src=35-remote-logging.conf.j2 dest=/etc/rsyslog.d/35-remote-logging.conf
-  notify: restart rsyslog
-
-- name: Copy 00-ignore-log.conf.j2
-  template: src=00-ignore-log.conf.j2 dest=/etc/rsyslog.d/00-ignore-log.conf
-  notify: restart rsyslog
-
-- name: Copy cleanup_logfiles.sh.j2
-  template: src=cleanup_logfiles.sh.j2  dest=/etc/cron.daily/cleanup_logfiles.sh mode=755
-
-- name: Copy cleanup_logfiles.sh.j2
-  template: src=logrotate-docker-log.j2  dest=/etc/logrotate.d/logrotate-docker-log
-
+- name: Install ntp
+  apt: pkg={{item}} state=present update_cache=yes
+  with_items:
+    - ntp

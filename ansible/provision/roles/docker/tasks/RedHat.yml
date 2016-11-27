@@ -11,7 +11,7 @@
     backup: yes
     dest: /usr/lib/systemd/system/docker.service
     regexp: '(^ExecStart=.*\D)$'
-    replace: '\1 --insecure-registry {{ groups["docker_registry"][0] }}:5000'
+    replace: '\1 --insecure-registry dckreg:5000 --insecure-registry {{ groups["docker_registry"][0] }}:5000'
   register: result
   notify: Start {{ role_name }}
 

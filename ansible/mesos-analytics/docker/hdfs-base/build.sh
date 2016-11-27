@@ -1,2 +1,2 @@
-sudo docker build -t $DOCKER_REGISTRY/hdfs-base:2.7 .
-sudo docker push  $DOCKER_REGISTRY/hdfs-base:2.7
+sudo docker build -t dckreg:5000/hdfs-base:2.7 .
+sudo docker push  dckreg:5000/hdfs-base:2.7

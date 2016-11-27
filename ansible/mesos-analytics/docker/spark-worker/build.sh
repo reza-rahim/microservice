@@ -14,5 +14,5 @@ USER spark
 CMD ["/usr/local/spark/sbin/start-slave-wrap.sh"]
 EOL
 
-sudo docker build -t $DOCKER_REGISTRY/spark-worker:${TAG} .
-sudo docker push  $DOCKER_REGISTRY/spark-worker:${TAG} 
+sudo docker build -t dckreg:5000/spark-worker:${TAG} .
+sudo docker push  dckreg:5000/spark-worker:${TAG} 

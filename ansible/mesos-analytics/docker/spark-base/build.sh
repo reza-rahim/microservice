@@ -1,2 +1,2 @@
-sudo docker build -t $DOCKER_REGISTRY/spark-base:2.0 .
-sudo docker push  $DOCKER_REGISTRY/spark-base:2.0
+sudo docker build -t dckreg:5000/spark-base:2.0 .
+sudo docker push  dckreg:5000/spark-base:2.0

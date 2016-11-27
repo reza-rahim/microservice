@@ -11,7 +11,7 @@
     "type": "DOCKER",
     "volumes": [ {{ volumes }} ],
     "docker": {
-       "image": "{{ docker_registry }}/{{ docker_image }}:{{ tag }}",
+       "image": "dckreg:5000/{{ docker_image }}:{{ tag }}",
        "network": "{{ network }}",
        "parameters": [ {{ parameters }} ],
        "forcePullImage": true

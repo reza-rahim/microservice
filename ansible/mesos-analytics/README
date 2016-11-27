@@ -9,7 +9,7 @@ http://10.0.15.11:50070/
 http://10.0.15.11:8090/
 
 #####  zeppelin #####
-sudo docker run -d -v /usr/local/zeppelin/notebook:/usr/local/zeppelin/notebook --net=host 10.0.15.11:5000/zeppelin:0.6.1
+sudo docker run -d -v /usr/local/zeppelin/notebook:/usr/local/zeppelin/notebook --net=host dckreg:5000/zeppelin:0.6.1
 http://10.0.15.10:8070/
 
 ##### spark test ######

@@ -14,5 +14,5 @@ USER hdfs
 CMD ["hdfs-nn.sh"]
 EOL
 
-sudo docker build -t $DOCKER_REGISTRY/hdfs-nn:${TAG} .
-sudo docker push  $DOCKER_REGISTRY/hdfs-nn:${TAG} 
+sudo docker build -t dckreg:5000/hdfs-nn:${TAG} .
+sudo docker push  dckreg:5000/hdfs-nn:${TAG} 

@@ -24,3 +24,11 @@
 
 - name: Copy logrotate-docker-log.j2
   template: src=logrotate-docker-log.j2  dest=/etc/logrotate.d/logrotate-docker-log mode=755
+
+- include: Debian.yml
+  when: ansible_os_family == "Debian"
+  name: Running Debian.yml
+
+- include: RedHat.yml
+  when: ansible_os_family == "RedHat"
+  name: Running Redhat.yml

@@ -12,17 +12,5 @@
 - name: Creates spark directory
   file: path={{ item.path }} state=directory owner=analytics
   with_items:
-    - { path: '/etc/spark' }
-    - { path: '/opt/spark/recovery' }
-    - { path: '/opt/spark/data' }
-    - { path: '/opt/spark/work' }
-  when: "'spark_master' in group_names or 'spark_slave' in group_names"
-
-- name: Copy spark files
-  template: src="{{ item.src }}" dest="/etc/spark/{{ item.dest }}" mode="{{ item.mode }}"
-  with_items:
-    - { src: 'spark.metrics.properties.j2', dest: 'metrics.properties', mode: '755' }
-    - { src: 'spark.spark-defaults.conf.j2', dest: 'spark-defaults.conf', mode: '755' }
-    - { src: 'spark.spark-env.sh.j2', dest: 'spark-env.sh', mode: '755' }
-  when: "'spark_master' in group_names or 'spark_slave' in group_names"
-
+    - { path: '/opt/spark' }
+  when: "'spark_master' in group_names or 'spark_worker' in group_names"

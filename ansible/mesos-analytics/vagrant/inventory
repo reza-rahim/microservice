@@ -9,7 +9,7 @@ dn01  app_id=hdfs-dn-01 target_host=10.0.15.12
 dn02  app_id=hdfs-dn-02 target_host=10.0.15.13
 
 [hdfs_cli]
-mgmt  
+hdfscli  
 
 [spark_master]
 sm1 app_id=spark-master target_host=10.0.15.11
@@ -19,7 +19,7 @@ sm1 app_id=spark-master target_host=10.0.15.11
 10.0.15.12 app_id=spark-worker1 target_host=10.0.15.12
 
 [spark_shell]
-mgmt
+sparkshell
 
 #[zeppelin]
 #zep1 app_id=zeppelin target_host=10.0.15.13
