@@ -17,5 +17,4 @@ volumes: |
      }
 
 parameters: |
-     { "key": "log-driver", "value": "syslog" },
-     { "key": "log-opt", "value": "tag={{ app_id }}" }
+     {{ logging }}

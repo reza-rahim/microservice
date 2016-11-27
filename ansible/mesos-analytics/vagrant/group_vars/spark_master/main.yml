@@ -22,8 +22,7 @@ parameters: |
     { "key": "env", "value": "SPARK_MASTER_WEBUI_PORT=8090" },
     { "key": "env", "value": "SPARK_WORKER_MEMORY=1024m" },
     { "key": "env", "value": "SPARK_DAEMON_JAVA_OPTS=-Dspark.deploy.recoveryMode=FILESYSTEM -Dspark.deploy.recoveryDirectory=/opt/spark/recovery" },
-    { "key": "log-driver", "value": "syslog" },
-    { "key": "log-opt", "value": "tag={{ app_id }}" }
+    {{ logging }}
 
 
 constraints: UNIQUE
