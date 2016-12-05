@@ -1,5 +1,5 @@
 app_group: analytics/spark
-docker_image: spark-worker
+docker_image: spark
 tag: 2.0 
 cpus: 0.1 
 mem: 256
@@ -9,19 +9,20 @@ network: HOST
 
 volumes: |
     {
-       "containerPath": "/opt/spark/",
-       "hostPath": "/opt/spark/",
+       "containerPath": "/data/spark/",
+       "hostPath": "/data/spark/",
        "mode": "RW"
     }
 
 parameters: |
+    { "key": "env", "value": "MODE=worker" },
     { "key": "env", "value": "SPARK_MASTER_IP=sm1" },
-    { "key": "env", "value": "SPARK_LOCAL_IP={{ inventory_hostname }}" },
-    { "key": "env", "value": "SPARK_LOCAL_HOSTNAME={{ inventory_hostname }}" },
-    { "key": "env", "value": "SPARK_LOCAL_DIRS=/opt/spark/data" },
-    { "key": "env", "value": "SPARK_WORKER_DIR=/opt/spark/work" },
+    { "key": "env", "value": "SPARK_LOCAL_IP={{ target_host }}" },
+    { "key": "env", "value": "SPARK_LOCAL_HOSTNAME={{ target_host }}" },
+    { "key": "env", "value": "SPARK_LOCAL_DIRS=/data/spark/data" },
+    { "key": "env", "value": "SPARK_WORKER_DIR=/data/spark/work" },
     { "key": "env", "value": "SPARK_WORKER_MEMORY=1024m" },
-    { "key": "env", "value": "SPARK_DAEMON_JAVA_OPTS=-Dspark.deploy.recoveryMode=FILESYSTEM -Dspark.deploy.recoveryDirectory=/opt/spark/recovery" },
+    { "key": "env", "value": "SPARK_DAEMON_JAVA_OPTS=-Dspark.deploy.recoveryMode=FILESYSTEM -Dspark.deploy.recoveryDirectory=/data/spark/recovery" },
     {{ logging }}
 
 constraints: UNIQUE

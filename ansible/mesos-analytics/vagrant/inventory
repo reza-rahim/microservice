@@ -9,17 +9,31 @@ dn01  app_id=hdfs-dn-01 target_host=10.0.15.12
 dn02  app_id=hdfs-dn-02 target_host=10.0.15.13
 
 [hdfs_cli]
-hdfscli  
+hdfscli1  
+
+
+[hbase_cli]
+hbasecli1
+
+[hbase_master]
+hmst1  app_id=hbase-master-1 target_host=10.0.15.11
+
+[hbase_rs]
+hrs02  app_id=hbase-rs-02 target_host=10.0.15.13
+
 
 [spark_master]
 sm1 app_id=spark-master target_host=10.0.15.11
 
-
 [spark_worker]
-10.0.15.12 app_id=spark-worker1 target_host=10.0.15.12
+sw01 app_id=spark-worker1 target_host=10.0.15.12
 
 [spark_shell]
-sparkshell
+sparkshell1
+
 
 #[zeppelin]
 #zep1 app_id=zeppelin target_host=10.0.15.13
+
+[kafka]
+kaf01 app_id=kafka target_host=10.0.15.12 broker_id=1

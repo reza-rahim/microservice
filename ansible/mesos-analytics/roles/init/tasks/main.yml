@@ -12,5 +12,12 @@
 - name: Creates spark directory
   file: path={{ item.path }} state=directory owner=analytics
   with_items:
-    - { path: '/opt/spark' }
+    - { path: '/data/spark' }
   when: "'spark_master' in group_names or 'spark_worker' in group_names"
+
+- name: Creates kafka
+  file: path={{ item.path }} state=directory owner=analytics
+  with_items:
+    - { path: '/data/kafka-logs' }
+  when: "'kafka' in group_names "
+

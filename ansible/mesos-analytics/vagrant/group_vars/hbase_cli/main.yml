@@ -1,0 +1,2 @@
+docker_image: hbase
+tag: 1.2.4

@@ -1,0 +1,16 @@
+app_group: analytics/hadoop
+docker_image: hbase
+tag: 1.2.4 
+cpus: 0.1 
+mem: 128
+instances: 1
+
+constraints: UNIQUE
+
+network: HOST
+
+
+parameters: |
+    { "key": "env", "value": "MODE=rs" },
+    { "key": "env", "value": "ZK={{ ZK }}" },
+    {{ logging }}

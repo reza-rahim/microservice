@@ -3,10 +3,13 @@
 ### ./delete.sh
 
 ##### HDFS Namenode  #####
-http://10.0.15.11:50070/
+http://10.0.15.11:50070
 
 ##### Spark master #####
-http://10.0.15.11:8090/
+http://10.0.15.11:8090
+
+##### hbase master #####
+http://10.0.15.11:16010
 
 #####  zeppelin #####
 sudo docker run -d -v /usr/local/zeppelin/notebook:/usr/local/zeppelin/notebook --net=host dckreg:5000/zeppelin:0.6.1

@@ -13,7 +13,7 @@
 - name: Create hdfs alias
   lineinfile:
       dest=/etc/bashrc
-      line="alias hdfs='sudo docker  run -it --net=host  -u hdfs -v /opt/hadoop:/opt/hadoop dckreg:5000/{{ docker_image}}:{{ tag }}  /bin/bash'"
+      line="alias hdfs='sudo docker  run -it --net=host  -u hdfs -v /tmp/data:/tmp/data dckreg:5000/{{ docker_image}}:{{ tag }}  /bin/bash'"
       state=present
   when: "'hdfs_cli' in  group_names and ansible_os_family == 'RedHat'"
 
@@ -21,7 +21,7 @@
 - name: Create hdfs alias
   lineinfile:
       dest=/etc/bash.bashrc
-      line="alias hdfs='sudo docker  run -it --net=host  -u hdfs -v /opt/hadoop:/opt/hadoop dckreg:5000/{{ docker_image}}:{{ tag }}  /bin/bash'"
+      line="alias hdfs='sudo docker  run -it --net=host  -u hdfs -v /tmp/data:/tmp/data dckreg:5000/{{ docker_image}}:{{ tag }}  /bin/bash'"
       state=present
   when: "'hdfs_cli' in  group_names and ansible_os_family == 'Debian'"
 
@@ -36,3 +36,25 @@
       dest=/etc/bashrc
       line="alias spark-shell='sudo docker run -u spark -w /home/spark -it  -e SPARK_LOCAL_IP={{ inventory_hostname }}  --net=host dckreg:5000/{{ docker_image}}:{{ tag }} spark-shell --master spark://sm1:7077'"
   when: "'spark_shell' in  group_names and ansible_os_family == 'Radhat'"
+
+- name: Create hbase client
+  lineinfile:
+      dest=/etc/bash.bashrc
+      line="alias hbase='sudo docker run -u hbase  -w /home/hbase -it  --net=host dckreg:5000/{{ docker_image}}:{{ tag }} /bin/bash'"
+  when: "'hbase_cli' in  group_names and ansible_os_family == 'Debian'"
+
+- name: Create hbase client
+  lineinfile:
+      dest=/etc/bashrc
+      line="alias hbase='sudo docker run -u hbase  -w /home/hbase -it  --net=host dckreg:5000/{{ docker_image}}:{{ tag }} /bin/bash'"
+  when: "'hbase_cli' in  group_names and ansible_os_family == 'Radhat'"
+
+- name: Create /user/hbase dir on hdfs
+  command: docker run  --net=host dckreg:5000/hdfs:2.7 hdfs dfs -mkdir -p /user/hbase
+  delegate_to: localhost
+  when: "'hbase_cli' in  group_names" 
+
+- name: change owner of /user/hbase dir on hdfs
+  command: docker run  --net=host dckreg:5000/hdfs:2.7 hdfs dfs -chown hbase  /user/hbase
+  delegate_to: localhost
+  when: "'hbase_cli' in  group_names" 

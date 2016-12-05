@@ -1,5 +1,5 @@
 app_group: analytics/hadoop
-docker_image: hdfs-dn
+docker_image: hdfs
 tag: 2.7 
 cpus: 0.1 
 mem: 128
@@ -17,4 +17,6 @@ volumes: |
      }
 
 parameters: |
+     { "key": "env", "value": "MODE=dn" },
+     { "key": "env", "value": "NN_IP=nn1" },
      {{ logging }}

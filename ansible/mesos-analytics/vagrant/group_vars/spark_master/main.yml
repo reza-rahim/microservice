@@ -1,5 +1,5 @@
 app_group: analytics/spark
-docker_image: spark-master
+docker_image: spark
 instances: 1
 tag: 2.0 
 cpus: 0.1 
@@ -9,26 +9,22 @@ network: HOST
 
 volumes: |
     {
-        "containerPath": "/opt/spark/",
-        "hostPath": "/opt/spark/",
+        "containerPath": "/data/spark/",
+        "hostPath": "/data/spark/",
         "mode": "RW"
     }
      
      
 parameters: |
+    { "key": "env", "value": "MODE=master" },
     { "key": "env", "value": "SPARK_MASTER_IP=sm1" },
-    { "key": "env", "value": "SPARK_LOCAL_DIRS=/opt/spark/data" },
-    { "key": "env", "value": "SPARK_WORKER_DIR=/opt/spark/work" },
+    { "key": "env", "value": "SPARK_LOCAL_DIRS=/data/spark/data" },
+    { "key": "env", "value": "SPARK_WORKER_DIR=/data/spark/work" },
     { "key": "env", "value": "SPARK_MASTER_WEBUI_PORT=8090" },
     { "key": "env", "value": "SPARK_WORKER_MEMORY=1024m" },
-    { "key": "env", "value": "SPARK_DAEMON_JAVA_OPTS=-Dspark.deploy.recoveryMode=FILESYSTEM -Dspark.deploy.recoveryDirectory=/opt/spark/recovery" },
+    { "key": "env", "value": "SPARK_DAEMON_JAVA_OPTS=-Dspark.deploy.recoveryMode=FILESYSTEM -Dspark.deploy.recoveryDirectory=/data/spark/recovery" },
     {{ logging }}
 
 
 constraints: UNIQUE
 
-spark_master_webui_port: 8090
-spark_worker_memory: 1024m
-spark_local_dirs: /opt/spark/data
-spark_daemon_java_opts: "-Dspark.deploy.recoveryMode=FILESYSTEM -Dspark.deploy.recoveryDirectory=/opt/spark/recovery"
-spark_worker_dir: /opt/spark/work

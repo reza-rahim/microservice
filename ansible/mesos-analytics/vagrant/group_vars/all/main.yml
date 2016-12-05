@@ -1,3 +1,4 @@
+ZK: zk1:2181
 logging: |
    { "key": "log-driver", "value": "syslog" },
    { "key": "log-opt", "value": "tag={{ app_id }}" }

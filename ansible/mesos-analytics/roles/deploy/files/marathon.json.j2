@@ -9,7 +9,7 @@
   {% endif %} 
   "container": {
     "type": "DOCKER",
-    "volumes": [ {{ volumes }} ],
+    {% if volumes is defined %} "volumes": [ {{ volumes }} ], {% endif %}
     "docker": {
        "image": "dckreg:5000/{{ docker_image }}:{{ tag }}",
        "network": "{{ network }}",

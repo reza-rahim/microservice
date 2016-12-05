@@ -1,8 +1,80 @@
 ---
 
-- hosts: all
+- hosts: hdfs_cli
   become: yes
   roles:
         - { role: init }
         - { role: deploy }
+  tags: hdfs
 
+- hosts: hdfs_nn
+  become: yes
+  roles:
+        - { role: init }
+        - { role: deploy }
+  tags: hdfs
+
+- hosts: hdfs_dn
+  become: yes
+  roles:
+        - { role: init }
+        - { role: deploy }
+  tags: hdfs
+
+- hosts: hbase_cli
+  become: yes
+  roles:
+        - { role: init }
+        - { role: deploy }
+  tags: hbase
+
+- hosts: hbase_master
+  become: yes
+  roles:
+        - { role: init }
+        - { role: deploy }
+  tags: hbase
+
+
+- hosts: hbase_rs
+  become: yes
+  roles:
+        - { role: init }
+        - { role: deploy }
+  tags: hbase
+
+- hosts: spark_shell
+  become: yes
+  roles:
+        - { role: init }
+        - { role: deploy }
+  tags: spark
+
+- hosts: spark_master
+  become: yes
+  roles:
+        - { role: init }
+        - { role: deploy }
+  tags: spark
+
+- hosts: spark_worker
+  become: yes
+  roles:
+        - { role: init }
+        - { role: deploy }
+  tags: spark
+
+
+- hosts: zeppelin
+  become: yes
+  roles:
+        - { role: init }
+        - { role: deploy }
+  tags: zeppelin
+
+- hosts: kafka
+  become: yes
+  roles:
+        - { role: init }
+        - { role: deploy }
+  tags: kafka
