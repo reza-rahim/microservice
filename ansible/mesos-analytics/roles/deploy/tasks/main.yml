@@ -10,44 +10,32 @@
   delegate_to: localhost
   when: app_id is defined
 
-- name: Create hdfs alias
+- set_fact:
+    bash_file: "/etc/bashrc"
+    when: "ansible_os_family == 'RedHat'"
+
+- set_fact:
+    bash_file: "/etc/bash.bashrc"
+    when: "ansible_os_family == 'Debian'"
+
+- name: Create hdfs client
   lineinfile:
-      dest=/etc/bashrc
+      dest={{ bash_file }}
       line="alias hdfs='sudo docker  run -it --net=host  -u hdfs -v /tmp/data:/tmp/data dckreg:5000/{{ docker_image}}:{{ tag }}  /bin/bash'"
       state=present
-  when: "'hdfs_cli' in  group_names and ansible_os_family == 'RedHat'"
+  when: "'hdfs_cli' in  group_names"
 
-
-- name: Create hdfs alias
+- name: Create spark client
   lineinfile:
-      dest=/etc/bash.bashrc
-      line="alias hdfs='sudo docker  run -it --net=host  -u hdfs -v /tmp/data:/tmp/data dckreg:5000/{{ docker_image}}:{{ tag }}  /bin/bash'"
-      state=present
-  when: "'hdfs_cli' in  group_names and ansible_os_family == 'Debian'"
-
-- name: Create spark shell Debian
-  lineinfile:
-      dest=/etc/bash.bashrc
-      line="alias spark-shell='sudo docker run -u spark -w /home/spark -it  -e SPARK_LOCAL_IP={{ inventory_hostname }}  --net=host dckreg:5000/{{ docker_image}}:{{ tag }} spark-shell --master spark://sm1:7077'"
-  when: "'spark_shell' in  group_names and ansible_os_family == 'Debian'"
-
-- name: Create spark shell Radhat
-  lineinfile:
-      dest=/etc/bashrc
-      line="alias spark-shell='sudo docker run -u spark -w /home/spark -it  -e SPARK_LOCAL_IP={{ inventory_hostname }}  --net=host dckreg:5000/{{ docker_image}}:{{ tag }} spark-shell --master spark://sm1:7077'"
-  when: "'spark_shell' in  group_names and ansible_os_family == 'Radhat'"
+      dest={{ bash_file }}
+      line="alias spark='sudo docker run -u spark -w /home/spark -it -v /tmp/data:/tmp/data -e MASTER=--master spark://sm1:7077 -e SPARK_LOCAL_IP={{ inventory_hostname }} --net=host dckreg:5000/{{ docker_image}}:{{ tag }}  /bin/bash'"
+  when: "'spark_cli' in  group_names"
 
 - name: Create hbase client
   lineinfile:
-      dest=/etc/bash.bashrc
+      dest={{ bash_file }}
       line="alias hbase='sudo docker run -u hbase  -w /home/hbase -it  --net=host dckreg:5000/{{ docker_image}}:{{ tag }} /bin/bash'"
-  when: "'hbase_cli' in  group_names and ansible_os_family == 'Debian'"
-
-- name: Create hbase client
-  lineinfile:
-      dest=/etc/bashrc
-      line="alias hbase='sudo docker run -u hbase  -w /home/hbase -it  --net=host dckreg:5000/{{ docker_image}}:{{ tag }} /bin/bash'"
-  when: "'hbase_cli' in  group_names and ansible_os_family == 'Radhat'"
+  when: "'hbase_cli' in  group_names"
 
 - name: Create /user/hbase dir on hdfs
   command: docker run  --net=host dckreg:5000/hdfs:2.7 hdfs dfs -mkdir -p /user/hbase
@@ -58,3 +46,10 @@
   command: docker run  --net=host dckreg:5000/hdfs:2.7 hdfs dfs -chown hbase  /user/hbase
   delegate_to: localhost
   when: "'hbase_cli' in  group_names" 
+
+- name:  create kafka client
+  lineinfile:
+      dest={{ bash_file }}
+      line="alias kafka='sudo docker run -u kafka  -w /home/kafka -it  --net=host dckreg:5000/{{ docker_image}}:{{ tag }} /bin/bash'"
+  when: "'kafka_cli' in  group_names"
+

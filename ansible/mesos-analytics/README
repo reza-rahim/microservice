@@ -16,5 +16,8 @@ sudo docker run -d -v /usr/local/zeppelin/notebook:/usr/local/zeppelin/notebook 
 http://10.0.15.10:8070/
 
 ##### spark test ######
+spark-shell --master $MASTER
+
 val textFile = sc.textFile("hdfs://nn1:9000/test.file")
 textFile.collect().foreach(println)
+

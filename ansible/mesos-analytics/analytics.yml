@@ -43,7 +43,7 @@
         - { role: deploy }
   tags: hbase
 
-- hosts: spark_shell
+- hosts: spark_cli
   become: yes
   roles:
         - { role: init }
@@ -72,9 +72,15 @@
         - { role: deploy }
   tags: zeppelin
 
-- hosts: kafka
+- hosts: kafka_cli
   become: yes
   roles:
         - { role: init }
         - { role: deploy }
   tags: kafka
+
+- hosts: kafka
+  become: yes
+  roles:
+        - { role: init }
+        - { role: deploy }

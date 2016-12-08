@@ -1,0 +1,2 @@
+#bash_file: '/etc/bashrc' when "ansible_os_family == 'RedHat'"
+#bash_file:  '/etc/bash.bashrc'
