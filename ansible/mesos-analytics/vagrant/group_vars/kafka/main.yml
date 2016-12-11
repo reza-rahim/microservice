@@ -1,6 +1,6 @@
 app_group: analytics/messaging
 docker_image: kafka
-tag:  0.9.0.1
+tag:  0.10.0.1
 cpus: 0.1 
 mem: 128
 instances: 1
@@ -20,8 +20,10 @@ volumes: |
      }
 
 parameters: |
+    { "key": "env", "value": "KAFKA_OPTS=-javaagent:/opt/jmx_prometheus/jmx_prometheus_javaagent.jar={{ kafka_jmx_prometheus_port }}:/etc/jmx_exporter/jmx_exporter.json" },
     { "key": "env", "value": "KAFKA_HEAP_OPTS={{ kafka_heap_opts }}" },
     { "key": "env", "value": "ZK={{ ZK }}" },
+    { "key": "env", "value": "JMX_PORT={{ kafka_jmx_port }}" },
     { "key": "env", "value": "BROKER_ID={{ broker_id }}" },
     { "key": "env", "value": "NUM_PARTITIONS={{ num_partitions }}" },
     {{ logging }}

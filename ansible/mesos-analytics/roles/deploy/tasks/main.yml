@@ -21,20 +21,20 @@
 - name: Create hdfs client
   lineinfile:
       dest={{ bash_file }}
-      line="alias hdfs='sudo docker  run -it --net=host  -u hdfs -v /tmp/data:/tmp/data dckreg:5000/{{ docker_image}}:{{ tag }}  /bin/bash'"
+      line="alias hdfs='sudo docker  run -it --net=host  -u hdfs -v /tmp/hdfs:/tmp/hdfs dckreg:5000/{{ docker_image}}:{{ tag }}  /bin/bash'"
       state=present
   when: "'hdfs_cli' in  group_names"
 
 - name: Create spark client
   lineinfile:
       dest={{ bash_file }}
-      line="alias spark='sudo docker run -u spark -w /home/spark -it -v /tmp/data:/tmp/data -e MASTER=--master spark://sm1:7077 -e SPARK_LOCAL_IP={{ inventory_hostname }} --net=host dckreg:5000/{{ docker_image}}:{{ tag }}  /bin/bash'"
+      line="alias spark='sudo docker run -u spark -w /home/spark -it -v /tmp/spark:/tmp/spark -e MASTER=spark://sm1:7077 -e SPARK_LOCAL_IP={{ inventory_hostname }} --net=host dckreg:5000/{{ docker_image}}:{{ tag }}  /bin/bash'"
   when: "'spark_cli' in  group_names"
 
 - name: Create hbase client
   lineinfile:
       dest={{ bash_file }}
-      line="alias hbase='sudo docker run -u hbase  -w /home/hbase -it  --net=host dckreg:5000/{{ docker_image}}:{{ tag }} /bin/bash'"
+      line="alias hbase='sudo docker run -u hbase  -w /home/hbase -it  -v /tmp/hbase:/tmp/hbase  --net=host dckreg:5000/{{ docker_image}}:{{ tag }} /bin/bash'"
   when: "'hbase_cli' in  group_names"
 
 - name: Create /user/hbase dir on hdfs
@@ -50,6 +50,6 @@
 - name:  create kafka client
   lineinfile:
       dest={{ bash_file }}
-      line="alias kafka='sudo docker run -u kafka  -w /home/kafka -it  --net=host dckreg:5000/{{ docker_image}}:{{ tag }} /bin/bash'"
+      line="alias kafka='sudo docker run -u kafka  -w /home/kafka -it  -v /tmp/kafka:/tmp/kafka --net=host dckreg:5000/{{ docker_image}}:{{ tag }} /bin/bash'"
   when: "'kafka_cli' in  group_names"
 

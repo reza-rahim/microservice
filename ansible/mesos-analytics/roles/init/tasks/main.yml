@@ -13,7 +13,7 @@
   file: path={{ item.path }} state=directory owner=analytics
   with_items:
     - { path: '/data/spark' }
-  when: "'spark_master' in group_names or 'spark_worker' in group_names"
+  when: "'spark_master' in group_names or 'spark_worker' in group_names or 'spark_cli' in group_names "
 
 - name: Creates kafka
   file: path={{ item.path }} state=directory owner=analytics
@@ -21,3 +21,11 @@
     - { path: '/data/kafka-logs' }
   when: "'kafka' in group_names "
 
+- name: Creates cli dir
+  file: path={{ item.path }} state=directory owner=analytics
+  with_items:
+    - { path: '/tmp/hdfs' }
+    - { path: '/tmp/spark' }
+    - { path: '/tmp/hbase' }
+    - { path: '/tmp/kafka' }
+  when: "'hdfs_cli' in group_names "

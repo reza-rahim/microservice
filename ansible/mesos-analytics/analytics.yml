@@ -84,3 +84,4 @@
   roles:
         - { role: init }
         - { role: deploy }
+  tags: kafka

@@ -2,3 +2,6 @@ ZK: zk1:2181
 logging: |
    { "key": "log-driver", "value": "syslog" },
    { "key": "log-opt", "value": "tag={{ app_id }}" }
+
+kafka_jmx_port: 9070
+kafka_jmx_prometheus_port: 7070

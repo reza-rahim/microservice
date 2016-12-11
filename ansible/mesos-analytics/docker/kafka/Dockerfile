@@ -1,8 +1,8 @@
-FROM openjdk:8-jre
+FROM dckreg:5000/java:8
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV SCALA_VERSION 2.11
-ENV KAFKA_VERSION 0.9.0.1
+ENV KAFKA_VERSION 0.10.0.1
 ENV KAFKA_HOME  /opt/kafka_"$SCALA_VERSION"-"$KAFKA_VERSION"
 ENV PATH  $PATH:"$KAFKA_HOME"/bin
 
@@ -11,11 +11,14 @@ RUN  wget -q http://apache.mirrors.spacedump.net/kafka/"$KAFKA_VERSION"/kafka_"$
     rm /tmp/kafka_"$SCALA_VERSION"-"$KAFKA_VERSION".tgz
 
 
+RUN mkdir /etc/jmx_exporter
+COPY jmx_exporter.json /etc/jmx_exporter/jmx_exporter.json
+
 RUN useradd -u 9000 -m kafka
 
-COPY spark-start.sh $KAFKA_HOME/bin/
+COPY kafka-start.sh $KAFKA_HOME/bin/
 
-CMD chmod 755 $KAFKA_HOME/bin/spark-start.sh
+CMD chmod 755 $KAFKA_HOME/bin/kafka-start.sh
 
 CMD mkdir /etc/kafka
 

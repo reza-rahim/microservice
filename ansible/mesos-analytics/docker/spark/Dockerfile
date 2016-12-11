@@ -11,6 +11,9 @@ RUN wget http://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_
     mv spark-$SPARK_BIN_VERSION $SPARK_HOME && \
     rm /spark-$SPARK_BIN_VERSION.tgz
 
+RUN apt-get update
+RUN apt-get -y install python
+
 RUN useradd -u 9000 -m spark 
 
 COPY spark-daemon.sh $SPARK_HOME/sbin/
