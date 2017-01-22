@@ -1,0 +1,20 @@
+---
+
+- name: Install docker
+  apt: pkg={{item}}  state=present update_cache=yes
+  with_items:
+     - docker.io=1.12.3-0ubuntu4~16.04.2
+  notify: Start {{ role_name }}
+
+- name: Add docker insecure parameter
+  replace:
+    backup: yes
+    dest: /lib/systemd/system/docker.service
+    regexp: '(^ExecStart=.*\D)$'
+    replace: '\1 --insecure-registry dckreg:5000 --insecure-registry dckreg:5000'
+  register: result
+  notify: Start {{ role_name }}
+
+- name: Ensure systemd is reloaded if docker.service has changed
+  shell: systemctl daemon-reload
+  when: result|changed

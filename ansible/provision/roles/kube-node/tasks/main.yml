@@ -1,0 +1,54 @@
+---
+
+- name: ip route to find out interface
+  shell: ip route | grep {{ inventory_hostname }} | cut -d ' ' -f 3
+  register: result
+
+- name: add the route for 10.96.0.0/12
+  shell: ip route add {{ service_ip_range }} dev {{ result.stdout }}
+  ignore_errors: True
+
+- name: Creates /etc/systemd/system/kubelet.service.d directory
+  file: path=/etc/systemd/system/kubelet.service.d  state=directory
+
+- name: Creates /etc/cni/net.d directory
+  file: path={{ cni }} recurse=yes state=directory
+
+- name: Creates pki directory
+  file: path={{ cert_dir }} recurse=yes state=directory
+
+- name: copy CA certificate from ansible host
+  template: src={{ master_cert_dir }}/{{ item }} dest={{ cert_dir }}/{{ item }}
+  with_items:
+    - "ca-key.pem"
+    - "ca.pem"
+    - "admin.pem"
+    - "admin-key.pem"
+
+- name: copy openssl
+  template: src="openssl.conf.j2" dest="{{ cert_dir }}/openssl.conf"
+  register: openssl
+
+- name: create certificate for node
+  register: create_ssl_cert
+  command: "{{ item }}"
+  with_items:
+    - "openssl genrsa -out {{ cert_dir }}/node-key.pem 2048"
+    - "openssl req -new -key {{ cert_dir }}/node-key.pem -out {{ cert_dir }}/node.csr -subj '/CN=kube-node' -config {{ cert_dir }}/openssl.conf"
+    - "openssl x509 -req -in {{ cert_dir }}/node.csr -CA {{ cert_dir }}/ca.pem -CAkey {{ cert_dir }}/ca-key.pem -CAcreateserial -out {{ cert_dir }}/node.pem -days {{ cert_days }} -extensions v3_req -extfile {{ cert_dir }}/openssl.conf"
+  register: result
+  notify: restart kubelet
+  when: openssl|changed
+
+- name: Copy kube config files
+  template: src="{{ item.src }}" dest="{{ item.dest }}"
+  with_items:
+    - { src: 'kubelet.conf.j2', dest: '/etc/kubernetes/kubelet.conf'  }
+    - { src: '10-kubelet.conf.j2', dest: '/etc/systemd/system/kubelet.service.d/10-kubelet.conf'  }
+    - { src: '10-weave.conf.j2', dest: '/etc/cni/net.d/10-weave.conf'  }
+  register: result
+  notify: restart kubelet
+
+- name: Ensure systemd is reloaded if any config  changed
+  shell: systemctl daemon-reload
+  when: result|changed

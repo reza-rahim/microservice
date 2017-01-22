@@ -1,0 +1,2 @@
+- name: Start docker_registry
+  service: name=docker_registry state=restarted enabled=yes

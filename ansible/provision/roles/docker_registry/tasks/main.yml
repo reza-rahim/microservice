@@ -1,0 +1,23 @@
+---
+- name: Creates directory /etc/docker/registry
+  file: path=/etc/docker/registry/  state=directory
+
+- name: Copy  config.yml.j2 to /etc/docker/registry/config.yml
+  template: src=config.yml.j2 dest=/etc/docker/registry/config.yml
+
+- name: Copy docker_registry.service.j2 /lib/systemd/system/docker_registry.service
+  template: src=docker_registry.service.j2 dest=/lib/systemd/system/docker_registry.service
+  when: ansible_os_family == "Debian"
+  register: result
+  notify: Start docker_registry
+
+
+- name: Copy docker_registry.service.j2 /lib/systemd/system/docker_registry.service
+  template: src=docker_registry.service.j2 dest=/usr/lib/systemd/system/docker_registry.service
+  when: ansible_os_family == "RedHat"
+  register: result
+  notify: Start docker_registry
+
+- name: Ensure systemd is reloaded if docker_registry.service has changed
+  shell: systemctl daemon-reload
+  when: result|changed

@@ -1,0 +1,13 @@
+[Unit]
+Description=Docker Application Container Engine
+Documentation=https://docs.docker.com
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker run -p 5000:5000 -v /var/lib/registry:/var/lib/registry -v /etc/docker/registry/config.yml:/etc/docker/registry/config.yml --name docker_registry registry:2
+ExecStop=/usr/bin/docker stop -t 2 docker_registry
+ExecStopPost=/usr/bin/docker rm -f docker_registry
+
+[Install]
+WantedBy=default.target

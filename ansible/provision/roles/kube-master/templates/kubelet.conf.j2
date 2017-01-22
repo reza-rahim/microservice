@@ -1,0 +1,27 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: {{ ca_cert }}
+    server: https://{{ groups['api_lb'][0] }}:6443
+  name: kubernetes
+contexts:
+- context:
+    cluster: kubernetes
+    user: admin
+  name: admin@kubernetes
+- context:
+    cluster: kubernetes
+    user: kubelet
+  name: kubelet@kubernetes
+current-context: admin@kubernetes
+kind: Config
+preferences: {}
+users:
+- name: admin
+  user:
+    client-certificate: {{ admin_cert }}
+    client-key: {{ admin_key }}
+- name: kubelet
+  user:
+    client-certificate: {{ admin_cert }}
+    client-key: {{ admin_key }}

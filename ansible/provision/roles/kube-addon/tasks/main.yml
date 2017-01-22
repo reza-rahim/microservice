@@ -1,0 +1,28 @@
+---
+- name: Creates /var/tmp/addon directory
+  file: path=/var/tmp/addon  recurse=yes state=directory
+
+- name: Copy kube config files
+  template: src="{{ item.src }}" dest="/var/tmp/addon/{{ item.dest }}"
+  with_items:
+    - { src: 'kube-proxy.yaml.j2', dest: 'kube-proxy.yaml'  }
+    - { src: 'weave-kube.yaml.j2', dest: 'weave-kube.yaml'  }
+    - { src: 'kube-dns-dp.yaml.j2', dest: 'kube-dns-dp.yaml'  }
+    - { src: 'kube-dns-svc.yaml.j2', dest: 'kube-dns-svc.yaml'  }
+    - { src: 'kubernetes-dashboard.yaml.j2', dest: 'kubernetes-dashboard.yaml'  }
+    - { src: 'prometheus.yaml.j2', dest: 'prometheus.yaml'  }
+    - { src: 'prometheus-svc.yaml.j2', dest: 'prometheus-svc.yaml'  }
+  register: result
+
+- name:  
+  shell: kubectl create -s {{ groups['api_lb'][0] }}:8080 -f /var/tmp/addon/{{ item }}
+  with_items:
+    - "kube-proxy.yaml"
+    - "weave-kube.yaml"
+    - "kube-dns-dp.yaml"
+    - "kube-dns-svc.yaml"
+    - "kubernetes-dashboard.yaml"
+    - "prometheus.yaml"
+    - "prometheus-svc.yaml"
+  ignore_errors: True
+  when: result|changed

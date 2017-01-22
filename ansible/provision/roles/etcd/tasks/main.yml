@@ -1,0 +1,23 @@
+---
+
+- name: Install etcd on redhat
+  when: ansible_os_family == "RedHat"
+  yum:
+    name: etcd
+    state: present
+
+- name: Install etcd on debian
+  when: ansible_os_family == "Debian"
+  apt:
+    name: etcd
+    state: present
+
+- name: Write etcd config file
+  template: src=etcd.j2 dest=/etc/default/etcd
+  register: etc_config
+  notify: start etcd
+
+
+- name: Ensure systemd is reloaded if etcd.service has changed
+  shell: systemctl daemon-reload
+  when: etc_config|changed

@@ -1,0 +1,7 @@
+role_name: docker
+docker_yum_repo_url: "https://yum.dockerproject.org/repo/main"
+docker_yum_repo: "{{ docker_yum_repo_url }}/{{ docker_yum_repo_uris[ansible_distribution] }}"
+docker_yum_repo_gpg: 'https://yum.dockerproject.org/gpg'
+docker_yum_package: "docker-engine-1.12.1"
+
+docler_apt_package: docker-engine=1.12.2~rc1-0~xenial
