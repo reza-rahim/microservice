@@ -1,0 +1,49 @@
+---
+
+- name: Creates /etc/flocker directory
+  file: path=/etc/flocker  state=directory mode=0700
+
+- name: Creates {{ flocker_local_tempdir}} directory
+  file: path={{ flocker_local_tempdir }}  state=directory mode=0755
+  delegate_to: 127.0.0.1
+
+- name: initialize {{ flocker_cluster_name }}
+  command: flocker-ca initialize {{ flocker_cluster_name }}
+  args:
+    chdir: "{{ flocker_local_tempdir }}"
+    creates: "{{ flocker_local_tempdir }}/cluster.key"
+  delegate_to: 127.0.0.1
+
+- name: flocker-ca create-control-certificate {{ flocker_cluster_name }}
+  command: flocker-ca create-control-certificate {{ flocker_controller }}
+  args:
+    chdir: "{{ flocker_local_tempdir }}"
+    creates: "{{ flocker_local_tempdir }}/control-{{ flocker_controller }}.key"
+  delegate_to: 127.0.0.1
+
+- name: flocker-ca create-api-certificate plugin
+  command: flocker-ca create-api-certificate plugin
+  args:
+    chdir: "{{ flocker_local_tempdir }}"
+    creates: "{{ flocker_local_tempdir }}/plugin.crt"
+  delegate_to: 127.0.0.1
+
+- name: flocker-ca create-api-certificate apiuser
+  command: flocker-ca create-api-certificate apiuser
+  args:
+    chdir: "{{ flocker_local_tempdir }}"
+    creates: "{{ flocker_local_tempdir }}/apiuser.crt"
+  delegate_to: 127.0.0.1
+
+- name: change pemission on {{ flocker_local_tempdir }}
+  file: path={{ flocker_local_tempdir }}  mode=0755 recurse=yes
+  delegate_to: 127.0.0.1
+
+- name: Copy flocker control config
+  copy: src="{{ item.src }}" dest="{{ item.dest }}" mode="{{ item.mode }}"
+  register: result
+  with_items:
+    - { src: '{{ flocker_local_tempdir }}/cluster.crt', dest: '/etc/flocker/cluster.crt', mode: '600' }
+    - { src: '{{ flocker_local_tempdir }}/control-{{ flocker_controller }}.crt', dest: '/etc/flocker/control-service.crt', mode: '600' }
+    - { src: '{{ flocker_local_tempdir }}/control-{{ flocker_controller }}.key', dest: '/etc/flocker/control-service.key', mode: '600' }
+  notify: restart flocker control

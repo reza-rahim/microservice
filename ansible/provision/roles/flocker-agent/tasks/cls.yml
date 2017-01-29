@@ -1,0 +1,5 @@
+- hosts: flocker_controller
+  gather_facts: True
+  become: yes
+  roles:
+     - flocker-controller

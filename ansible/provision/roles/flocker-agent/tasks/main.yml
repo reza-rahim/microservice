@@ -1,0 +1,68 @@
+---
+
+- name: Creates /etc/flocker directory
+  file: path=/etc/flocker  state=directory mode=700
+
+- name: Creates /etc/flocker directory
+  file: path=/root/.ssh  state=directory mode=700
+
+- name: Create create-node-certificate
+  command: flocker-ca create-node-certificate
+  args:
+    chdir: "{{ flocker_local_tempdir }}"
+    creates: "{{ flocker_local_tempdir }}/{{inventory_hostname}}.key"
+  delegate_to: 127.0.0.1
+
+- name: rename node key file
+  command: mv {{ item }} {{ flocker_local_tempdir }}/{{inventory_hostname}}.key
+  args:
+    creates: "{{ flocker_local_tempdir }}.key"
+  with_fileglob:
+    - "{{ flocker_local_tempdir }}/*-*-*-*-*.key"
+  delegate_to: 127.0.0.1
+
+- name: rename  node crt file
+  command: mv {{ item }} {{ flocker_local_tempdir }}/{{inventory_hostname}}.crt
+  args:
+    creates: "{{ flocker_local_tempdir }}/{{inventory_hostname}}.crt"
+  with_fileglob:
+    - "{{ flocker_local_tempdir }}/*-*-*-*-*.crt"
+  delegate_to: 127.0.0.1
+
+- name: change pemission on {{ flocker_local_tempdir }}
+  file: path={{ flocker_local_tempdir }}  mode=0755 recurse=yes
+  delegate_to: 127.0.0.1
+
+- name: Copy flocker key file
+  copy: src="{{ item.src }}" dest="{{ item.dest }}" mode="{{ item.mode }}"
+  register: result
+  with_items:
+    - { src: '{{ flocker_local_tempdir }}/{{inventory_hostname}}.crt', dest: '/etc/flocker/node.crt', mode: '600' }
+    - { src: '{{ flocker_local_tempdir }}/{{inventory_hostname}}.key', dest: '/etc/flocker/node.key', mode: '600' }
+    - { src: '{{ flocker_local_tempdir }}/plugin.crt', dest: '/etc/flocker/plugin.crt', mode: '600' }
+    - { src: '{{ flocker_local_tempdir }}/plugin.key', dest: '/etc/flocker/plugin.key', mode: '600' }
+    - { src: '{{ flocker_local_tempdir }}/plugin.crt', dest: '/etc/flocker/apiuser.crt', mode: '600' }
+    - { src: '{{ flocker_local_tempdir }}/plugin.key', dest: '/etc/flocker/apiuser.key', mode: '600' }
+    - { src: '{{ flocker_local_tempdir }}/cluster.crt', dest: '/etc/flocker/cluster.crt', mode: '600' }
+
+- name: Copy flocker agent config
+  template: src="{{ item.src }}" dest="{{ item.dest }}" mode="{{ item.mode }}"
+  register: result
+  with_items:
+    - { src: 'agent.yml.j2', dest: '/etc/flocker/agent.yml', mode: '600' }
+    - { src: 'authorized_keys', dest: '/root/.ssh/authorized_keys', mode: '600' }
+    - { src: 'id_rsa', dest: '/etc/flocker/id_rsa_flocker', mode: '600' }
+  when:  cloud_provider is not defined 
+  notify: restart flocker node
+
+- name: Copy flocker agent config
+  template: src="{{ item.src }}" dest="{{ item.dest }}" mode="{{ item.mode }}"
+  register: result
+  with_items:
+    - { src: 'aws_agent.yml.j2', dest: '/etc/flocker/agent.yml', mode: '600' }
+  when:  (cloud_provider is  defined and cloud_provider == "aws")
+  notify: restart flocker node
+
+- name: Ensure systemd is reloaded if any config  changed
+  shell: systemctl daemon-reload
+  when: result|changed

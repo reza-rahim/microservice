@@ -1,15 +1,37 @@
 #####
-mesos_cluster_name: MesosCluster
+version: v1.5.2
+weave_version: 1.8.2
 
-#### zookeeper setting
-zookeeper_tickTime: 2000
-zookeeper_clientPort: 2181
-zookeeper_initLimit: 5
-zookeeper_syncLimit: 2
-zookeeper_dataDir: /var/lib/zookeeper
-zookeeper_autopurge_purgeInterval: 24
-zookeeper_autopurge_snapRetainCount: 3
+cluster_name: cluster.local
 
-docker_registry_cpus: 0.1
-docker_registry_mem: 64
+cert_days: 1000
 
+
+#- kubernetes dir
+kube_config_dir: /etc/kubernetes
+manifest_config_dir: /etc/kubernetes/manifests
+cert_dir: /etc/kubernetes/pki
+master_cert_dir: /etc/kubernetes/pki
+cni: /etc/cni/net.d
+
+#- all certifactes for cluster
+ca_cert: /etc/kubernetes/pki/ca.pem
+ca_key: /etc/kubernetes/pki/ca-key.pem
+api_cert: /etc/kubernetes/pki/apiserver.pem
+api_key: /etc/kubernetes/pki/apiserver-key.pem
+admin_key: /etc/kubernetes/pki/admin-key.pem
+admin_cert: /etc/kubernetes/pki/admin.pem
+node_key: /etc/kubernetes/pki/node-key.pem
+node_cert: /etc/kubernetes/pki/node.pem
+
+
+#- cluster service ip range
+service_ip_range: 10.96.0.0/12
+kubernetes_service_ip: 10.96.0.1
+kubernetes_dns_ip: 10.96.0.10
+
+#flocker config
+flocker_cluster_name: flocker_cluster
+flocker_local_tempdir: /var/lib/flocker/{{ flocker_cluster_name }}
+flocker_controller: flckctl
+flocker_client: flockerctl

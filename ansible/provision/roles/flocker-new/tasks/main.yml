@@ -1,0 +1,11 @@
+---
+
+- name: Running Debian.yml
+  include: Debian.yml
+  when:
+    - ansible_os_family == "Debian"
+
+- include: RedHat.yml
+  name: Running Redhat.yml
+  when:
+    - ansible_os_family == "RedHat"

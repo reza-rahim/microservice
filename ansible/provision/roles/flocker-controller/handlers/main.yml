@@ -1,0 +1,5 @@
+---
+
+- name: restart flocker control
+  service: name=flocker-control  state=restarted enabled=yes
+

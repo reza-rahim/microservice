@@ -1,0 +1,10 @@
+---
+- name: update apt
+  apt_repository: repo='deb https://packagecloud.io/grafana/stable/debian/ jessie main' state=present
+
+- name: Add apt keys
+  shell: curl https://packagecloud.io/gpg.key | sudo apt-key add -
+
+- name: Install grafana
+  apt: pkg=grafana  state=present update_cache=yes
+  notify: Start grafana-server

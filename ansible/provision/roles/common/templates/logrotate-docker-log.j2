@@ -12,4 +12,10 @@
   delaycompress
   copytruncate
 }
-
+/var/log/containers/*.log {
+  rotate {{ client_log_days }}
+  compress
+  missingok
+  delaycompress
+  copytruncate
+}

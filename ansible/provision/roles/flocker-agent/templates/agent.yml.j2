@@ -1,0 +1,11 @@
+"version": 1
+"control-service":
+   "hostname": "flckctl"
+   "port": 4524
+
+# The dataset key below selects and configures a dataset backend (see below: aws/openstack/etc).
+# All nodes will be configured to use only one backend
+
+dataset:
+   backend: "zfs"
+   pool: "flocker"

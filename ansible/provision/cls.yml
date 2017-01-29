@@ -1,0 +1,19 @@
+- hosts: flocker_controller
+  gather_facts: True
+  become: yes
+  roles:
+     - flocker-controller
+
+- hosts: flocker_agent
+  gather_facts: True
+  serial: 1
+  become: yes
+  roles:
+     - flocker-agent
+
+- hosts: flocker_client
+  gather_facts: True
+  serial: 1
+  become: yes
+  roles:
+     - flocker-client

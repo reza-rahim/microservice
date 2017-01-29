@@ -1,0 +1,6 @@
+---
+
+- hosts: mgmt
+  become: yes
+  roles:
+     - kube-addon

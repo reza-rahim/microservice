@@ -1,0 +1,62 @@
+---
+- hosts: mgmt
+  become: yes
+  roles:
+     - common
+     - docker-new
+     - kube-sslcer
+     - kube
+     - grafana
+     - log_server
+     - flocker-new 
+
+- hosts: etcd
+  become: yes
+  roles:
+     - etcd
+  tags:
+     -  etcd
+
+- hosts: master
+  become: yes
+  roles:
+     - common
+     - docker-new
+     - kube
+     - kube-master
+     - flocker-new 
+
+- hosts: node
+  become: yes
+  roles:
+     - common
+     - docker-new
+     - kube
+     - kube-node
+     - flocker-new 
+
+- hosts: docker_registry
+  become: yes
+  roles:
+     - docker-new
+     - docker_registry
+
+- hosts: flocker_controller
+  gather_facts: True
+  become: yes
+  roles:
+     - flocker-controller 
+
+- hosts: flocker_agent
+  gather_facts: True
+  serial: 1
+  become: yes
+  roles:
+     - flocker-agent 
+
+- hosts: flocker_client
+  gather_facts: True
+  serial: 1
+  become: yes
+  roles:
+     - flocker-client 
