@@ -19,5 +19,5 @@ spec:
           mountPath: "/data"
       volumes:  
       - name: mongo
-        flocker: 
-           datasetName: mongo
+        persistentVolumeClaim:
+          claimName: mongo

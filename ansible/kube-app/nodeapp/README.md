@@ -1,7 +1,7 @@
 ./buildall.sh
 #kubectl -s node1:8080 expose deployment nodeapp-deployment  --target-port=3000 --type=NodePort
 
-kubectl create -f kube-svc.yml
+kubectl -s node1:8080 create -f kube-svc.yml
 kubectl -s node1:8080 create  -f kube-dep-1.1.yaml --record
 
 ## rolling update

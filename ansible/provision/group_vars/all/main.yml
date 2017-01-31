@@ -33,5 +33,5 @@ kubernetes_dns_ip: 10.96.0.10
 #flocker config
 flocker_cluster_name: flocker_cluster
 flocker_local_tempdir: /var/lib/flocker/{{ flocker_cluster_name }}
-flocker_controller: flckctl
+flocker_controller: node1
 flocker_client: flockerctl
