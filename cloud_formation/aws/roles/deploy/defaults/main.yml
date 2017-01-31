@@ -1,6 +1,7 @@
 region: us-east-1
 az: us-east-1b
-instance_type: t2.micro
+mgmt_instance_type: t2.micro
+app_instance_type: t2.medium
 lbcount: 1 
 appcount: 1 
 env: prod

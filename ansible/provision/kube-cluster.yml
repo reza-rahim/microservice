@@ -8,7 +8,6 @@
      - kube
      - grafana
      - log_server
-     - flocker-new 
 
 - hosts: etcd
   become: yes
@@ -24,7 +23,6 @@
      - docker-new
      - kube
      - kube-master
-     - flocker-new 
 
 - hosts: node
   become: yes
@@ -33,7 +31,6 @@
      - docker-new
      - kube
      - kube-node
-     - flocker-new 
 
 - hosts: docker_registry
   become: yes

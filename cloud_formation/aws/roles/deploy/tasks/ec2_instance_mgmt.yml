@@ -10,7 +10,7 @@
     module: ec2
     region: "{{ region }}"
     image: "{{ ubuntu_image.ami }}"
-    instance_type: "{{ instance_type }}"
+    instance_type: "{{ mgmt_instance_type }}"
     key_name: "{{ sshKey }}"
     group: [ ssh, outbound , web]
     instance_tags: { Name: mgmtServer, type: mgmt, env: "{{ env }}" }

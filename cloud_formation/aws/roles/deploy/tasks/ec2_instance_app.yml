@@ -9,7 +9,7 @@
     module: ec2
     region: "{{ region }}"
     image: "{{ ubuntu_image.ami }}"
-    instance_type: "{{ instance_type }}"
+    instance_type: "{{ app_instance_type }}"
     key_name: "{{ sshKey }}"
     group: [inbound, outbound]
     instance_tags: { Name: appServer, type: "{{ item }}", env: "{{ env }}" }
