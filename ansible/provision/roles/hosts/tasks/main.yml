@@ -1,0 +1,10 @@
+---
+- name: Add api to /etc/hosts
+  lineinfile:
+     dest=/etc/hosts
+     line="{{ groups['api_lb'][0] }} api"
+
+- name: Add dckreg to /etc/hosts
+  lineinfile:
+     dest=/etc/hosts
+     line="{{ groups['docker_registry'][0] }} dckreg"

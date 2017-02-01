@@ -15,7 +15,7 @@ if $programname == 'docker' then {
    action(
       type="omfwd"
       protocol="tcp"
-      target="logserver"
+      target="{{ groups["log_server"][0] }}"
       port="514"
       template="RemoteForwardFormat"
       queue.SpoolDirectory="/var/spool/rsyslog"
