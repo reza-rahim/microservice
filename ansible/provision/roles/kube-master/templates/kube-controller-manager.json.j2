@@ -39,6 +39,9 @@
           "--service-account-private-key-file={{ api_key }}",
           "--cluster-signing-cert-file={{ ca_cert }}",
           "--cluster-signing-key-file={{ ca_key }}",
+{% if cloud is defined %}
+          "--cloud-provider={{ cloud }}",
+{% endif %}
           "--insecure-experimental-approve-all-kubelet-csrs-for-group=system:kubelet-bootstrap"
         ],
         "resources": {

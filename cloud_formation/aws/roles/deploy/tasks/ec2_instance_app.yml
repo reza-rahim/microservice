@@ -18,6 +18,7 @@
     count_tag:  { type : "{{ item }}" }
     
     vpc_subnet_id: "{{ vpc.subnets[1].id}}"
+    instance_profile_name: "kube"
     volumes:
       - device_name: /dev/sda1
         device_type: "{{ device_type }}"

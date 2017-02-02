@@ -43,6 +43,9 @@
           "--tls-private-key-file={{ api_key }}",
           "--secure-port=6443",
           "--enable-swagger-ui=true",
+{% if cloud is defined %}
+	  "--cloud-provider={{ cloud }}",
+{% endif %}
           "--etcd-servers={% for node in groups['etcd'] %}http://{{ node }}:2379{% if not loop.last %},{% endif %}{% endfor %}"
         ],
         "resources": {
