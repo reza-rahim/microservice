@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 sudo apt-get -y update
-sudo apt-get -y install zfsutils-linux
+#sudo apt-get -y install zfsutils-linux
 
-mkdir -p /var/opt/flocker
-truncate --size 10GB /var/opt/flocker/pool-vdev
-zpool create flocker /var/opt/flocker/pool-vdev
+#mkdir -p /var/opt/flocker
+#truncate --size 10GB /var/opt/flocker/pool-vdev
+#zpool create flocker /var/opt/flocker/pool-vdev
 ####zpool destroy flocker 
 ####rm -rf /flocker/
 
