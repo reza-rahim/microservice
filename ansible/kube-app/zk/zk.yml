@@ -50,6 +50,9 @@ spec:
         - sh
         - -c
         - zkGenConfig.sh && zkServer.sh start-foreground
+        volumeMounts:
+        - name: datadir
+          mountPath: /var/zookeeper/data
   volumeClaimTemplates:
   - metadata:
       name: datadir

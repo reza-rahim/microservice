@@ -1,4 +1,4 @@
-FROM openjdk:8-jre
+FROM dckreg:5000/openjdk:8-jdk
 
 ENV ZOOKEEPER_VERSION   3.4.8
 ENV ZOOKEEPER_HOME        /opt/zookeeper

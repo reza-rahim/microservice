@@ -1,7 +1,7 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: pv0001
+  name: zk-0
   labels:
     type: local
 spec:
@@ -10,12 +10,12 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/tmp/data01"
+    path: "/tmp/zk-0"
 ---
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: pv0002
+  name: zk-1
   labels:
     type: local
 spec:
@@ -24,12 +24,12 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/tmp/data02"
+    path: "/tmp/zk-1"
 ---
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: pv0003
+  name: zk-2
   labels:
     type: local
 spec:
@@ -38,4 +38,4 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/tmp/data03"
+    path: "/tmp/zk-2"
