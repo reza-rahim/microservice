@@ -1,0 +1,7 @@
+kubectl -s node1:8080 exec -it kafka-0 bash
+kafka-topics.sh --create --zookeeper zk-0.zk-headless:2181 --replication-factor 1 --partitions 1 --topic test
+kafka-topics.sh --list --zookeeper zk-0.zk-headless:2181
+
+kafka-console-producer.sh --broker-list localhost:9092 --topic test
+kafka-console-consumer.sh --topic test --from-beginning --zookeeper zk-2.zk-headless:2181
+
