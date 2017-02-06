@@ -28,7 +28,7 @@
     "containers": [
       {
         "name": "kube-apiserver",
-        "image": "gcr.io/google_containers/kube-apiserver-amd64:{{ version }}",
+        "image": "dckreg:5000/kube-apiserver-amd64:{{ version }}",
         "command": [
           "kube-apiserver",
           "--insecure-bind-address=0.0.0.0",

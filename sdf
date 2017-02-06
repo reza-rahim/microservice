@@ -1,0 +1,1 @@
+kafka-topics.sh --zookeeper zk-0.zk-headless:2181/kafka  --create  --topic my-topic  --partitions 1  --replication-factor 1 

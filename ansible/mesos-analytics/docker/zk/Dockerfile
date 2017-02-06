@@ -12,5 +12,4 @@ COPY zoo.cfg $ZOOKEEPER_VERSION/conf/zoo.cfg
 
 WORKDIR /opt/zookeeper
 
-ENTRYPOINT ["zkServer.sh"]
 

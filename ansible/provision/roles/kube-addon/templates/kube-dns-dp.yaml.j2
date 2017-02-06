@@ -49,7 +49,7 @@ spec:
         env:
         - name: PROMETHEUS_PORT
           value: "10055"
-        image: gcr.io/google_containers/kubedns-amd64:1.9
+        image: dckreg:5000/kubedns-amd64:1.9
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 5

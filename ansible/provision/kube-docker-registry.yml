@@ -1,0 +1,7 @@
+---
+- hosts: docker_registry
+  become: yes
+  roles:
+     - docker-new
+     - docker_registry
+

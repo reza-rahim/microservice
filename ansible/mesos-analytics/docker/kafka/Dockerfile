@@ -24,7 +24,3 @@ CMD mkdir /etc/kafka
 
 COPY server.properties.template /etc/kafka/
 
-EXPOSE 9092
-
-CMD ["kafka-start.sh", "/etc/kafka/server.properties"]
-

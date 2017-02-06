@@ -32,7 +32,3 @@
      - kube
      - kube-node
 
-- hosts: docker_registry
-  become: yes
-  roles:
-     - docker_registry

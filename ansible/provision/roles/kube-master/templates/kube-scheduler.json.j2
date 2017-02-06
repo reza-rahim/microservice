@@ -14,7 +14,7 @@
     "containers": [
       {
         "name": "kube-scheduler",
-        "image": "gcr.io/google_containers/kube-scheduler-amd64:{{ version }}",
+        "image": "dckreg:5000/kube-scheduler-amd64:{{ version }}",
         "command": [
           "kube-scheduler",
           "--address=127.0.0.1",

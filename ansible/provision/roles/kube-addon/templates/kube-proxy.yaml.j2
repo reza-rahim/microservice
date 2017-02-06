@@ -36,7 +36,7 @@ spec:
       - command:
         - kube-proxy
         - --kubeconfig=/run/kubeconfig
-        image: gcr.io/google_containers/kube-proxy-amd64:{{ version }}
+        image: dckreg:5000/kube-proxy-amd64:{{ version }}
         imagePullPolicy: IfNotPresent
         name: kube-proxy
         resources: {}
