@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nn
+  labels:
+    app: nn
+spec:
+  ports:
+  - port: 50070
+    name: http-address 
+  - port: 9000
+    name: fs-default-name
+  clusterIP: None
+  selector:
+    app: nn
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: nn
+spec:
+  serviceName: nn
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nn
+    spec:
+      containers:
+      - name: nn
+        imagePullPolicy: Always
+        image: dckreg:5000/hdfs:2.7
+        ports:
+        - containerPort: 50070
+          name: http-address
+        - containerPort: 9000
+          name: fs-default-name
+        command:
+        - sh
+        - -c
+        - namenode.sh
+        volumeMounts:
+        - name: datadir1
+          mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: datadir1
+      annotations:
+        volume.beta.kubernetes.io/storage-class: "ssd"
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
