@@ -1,0 +1,3 @@
+kubectl -s node1:8080 create -f local-pv.yml
+kubectl -s node1:8080 create -f nn.yml
+kubectl -s node1:8080 create -f dn.yml
