@@ -1,7 +1,12 @@
 #!/bin/bash
 
+mkdir -p /data/spark/recovery
+mkdir -p /data/spark/data
+mkdir -p /data/spark/work
+chown -R spark /data
+
 if [ $MODE = "master" ]; then
-   start-master.sh
+   sudo -Eu spark $SPARK_HOME/sbin/start-master.sh
 else
-   start-slave.sh $SPARK_MASTER_IP:7077
+   sudo -Eu spark $SPARK_HOME/sbin/start-slave.sh $SPARK_MASTER_IP:7077
 fi

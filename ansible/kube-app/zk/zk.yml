@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: zk-headless
+  name: zk
   labels:
-    app: zk-headless
+    app: zk
 spec:
   ports:
   - port: 2888
@@ -19,7 +19,7 @@ kind: StatefulSet
 metadata:
   name: zk
 spec:
-  serviceName: zk-headless
+  serviceName: zk
   replicas: 3
   template:
     metadata:
