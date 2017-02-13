@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dn
+  labels:
+    app: dn
+spec:
+  ports:
+  - port: 50075
+    name: datanodeweb 
+  - port: 50010
+    name: datatrnsfr
+  - port: 50020
+    name: metadata
+  clusterIP: None
+  selector:
+    app: dn
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: dn
+spec:
+  serviceName: dn
+  replicas: {{ dn_replicas }}
+  template:
+    metadata:
+      labels:
+        app: dn
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+        scheduler.alpha.kubernetes.io/affinity: >
+           {
+              "podAntiAffinity": {
+                "requiredDuringSchedulingRequiredDuringExecution": [{
+                  "labelSelector": {
+                    "matchExpressions": [{
+                      "key": "app",
+                      "operator": "In",
+                      "values": ["dn"]
+                    }]
+                  },
+                  "topologyKey": "kubernetes.io/hostname"
+                }]
+              }
+           }
+    spec:
+      containers:
+      - name: dn
+        imagePullPolicy: Always
+        image: dckreg:5000/hdfs:2.5.1
+        ports:
+        - containerPort: 50075
+          name: datanodeweb
+        - containerPort: 50010
+          name: datatrnsfr
+        - containerPort: 50020
+          name: metadata
+        env:
+        - name: DFS_REPLICATION
+          value: "{{ dfs_replication }}"
+        command:
+        - sh
+        - -c
+        - datanode.sh
+        volumeMounts:
+        - name: datadir
+          mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: datadir
+      {{ pv_annotations }}
+         {{ pv_annotations_line }}
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: {{ dn_disk }}

@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sw
+  labels:
+    app: sw
+spec:
+  ports:
+  - port: 8081
+    name: webui 
+  clusterIP: None
+  selector:
+    app: sw
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: sw
+spec:
+  serviceName: sw
+  replicas: {{ sw_replicas }}
+  template:
+    metadata:
+      labels:
+        app: sw
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+        scheduler.alpha.kubernetes.io/affinity: >
+            {
+              "podAntiAffinity": {
+                "requiredDuringSchedulingRequiredDuringExecution": [{
+                  "labelSelector": {
+                    "matchExpressions": [{
+                      "key": "app",
+                      "operator": "In",
+                      "values": ["sw"]
+                    }]
+                  },
+                  "topologyKey": "kubernetes.io/hostname"
+                }]
+              }
+            }
+    spec:
+      containers:
+      - name: sw
+        imagePullPolicy: Always
+        image: dckreg:5000/spark:2.1.0
+        ports:
+        - containerPort: 8081
+          name: webui
+        command:
+        - sh
+        - -c
+        - startspark.sh
+        env:
+        - name: MODE
+          value: "worker"
+        - name: SPARK_MASTER_IP
+          value: "sm-0.sm"
+        - name: SPARK_LOCAL_DIRS
+          value: "/data/spark/data"
+        - name: SPARK_WORKER_DIR
+          value: "/data/spark/work"
+        - name: SPARK_MASTER_WEBUI_PORT
+          value: "8080"
+        - name: SPARK_DAEMON_JAVA_OPTS
+          value: "-Dspark.deploy.recoveryMode=FILESYSTEM -Dspark.deploy.recoveryDirectory=/data/spark/recovery"
+        volumeMounts:
+        - name: datadir
+          mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: datadir
+      {{ pv_annotations }}
+         {{ pv_annotations_line }}
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: {{ sw_disk }}

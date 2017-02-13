@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hm
+  labels:
+    app: hm
+spec:
+  ports:
+  - port: 16000
+    name: master-port 
+  - port: 16010
+    name: info-port
+  clusterIP: None
+  selector:
+    app: hm
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: hm
+spec:
+  serviceName: hm
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hm
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+        scheduler.alpha.kubernetes.io/affinity: >
+            {
+              "podAntiAffinity": {
+                "requiredDuringSchedulingRequiredDuringExecution": [{
+                  "labelSelector": {
+                    "matchExpressions": [{
+                      "key": "app",
+                      "operator": "In",
+                      "values": ["hm"]
+                    }]
+                  },
+                  "topologyKey": "kubernetes.io/hostname"
+                }]
+              }
+            }
+    spec:
+      containers:
+      - name: hm
+        imagePullPolicy: Always
+        image: dckreg:5000/hbase:1.2.4
+        ports:
+        - containerPort: 16000
+          name: master-port
+        - containerPort: 16010
+          name: info-port
+        env:
+        - name: MODE
+          value: "master"
+        - name: ZK_LIST
+          value: "{{ zk_list }}"
+        - name: DFS_REPLICATION
+          value: "{{ dfs_replication }}"
+        command:
+        - sh
+        - -c
+        - starthbase.sh

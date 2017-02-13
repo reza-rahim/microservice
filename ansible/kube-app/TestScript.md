@@ -1,0 +1,19 @@
+
+##### kafka test ####
+kubectl -s api:8080 exec -it kafka-0 bash
+kafka-topics.sh --create --zookeeper zk-0.zk:2181 --replication-factor 1 --partitions 1 --topic test
+kafka-topics.sh --list --zookeeper zk-0.zk:2181
+
+kafka-console-producer.sh --broker-list localhost:9092 --topic test
+kafka-console-consumer.sh --topic test --from-beginning --zookeeper zk-2.zk:2181
+
+#### hdfs test####
+kubectl -s api:8080 exec -it nn-0 bash
+
+
+#### spark test ###
+kubectl -s api:8080 exec -it sm-0 bash
+spark-shell --master spark://sm-0.sprkmstr:7077
+
+val textFile = sc.textFile("hdfs://nn-0.nn:9000/data.txt")
+textFile.collect().foreach(println)
