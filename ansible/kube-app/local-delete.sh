@@ -25,12 +25,16 @@ kubectl -s api:8080 delete svc hm
 kubectl -s api:8080 delete StatefulSet rs
 kubectl -s api:8080 delete svc rs
 
+kubectl -s api:8080 delete StatefulSet dfsrs
+kubectl -s api:8080 delete svc dfsrs
+
 kubectl -s api:8080 delete pvc  datadir-zk-0
 kubectl -s api:8080 delete pvc  datadir-kafka-0
 kubectl -s api:8080 delete pvc  datadir-sm-0
 kubectl -s api:8080 delete pvc  datadir-sw-0
 kubectl -s api:8080 delete pvc  datadir-nn-0
 kubectl -s api:8080 delete pvc  datadir-dn-0
+kubectl -s api:8080 delete pvc  datadir-dfsrs-0
 
 kubectl -s api:8080 delete pv  local-0
 kubectl -s api:8080 delete pv  local-1

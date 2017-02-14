@@ -10,6 +10,12 @@ spec:
     name: rs-port 
   - port: 16030
     name: rs-info-port
+  - port: 50075
+    name: datanodeweb
+  - port: 50010
+    name: datatrnsfr
+  - port: 50020
+    name: metadata
   clusterIP: None
   selector:
     app: dfsrs
@@ -20,27 +26,82 @@ metadata:
   name: dfsrs
 spec:
   serviceName: dfsrs
-  replicas: 2
+  replicas: {{ dn_replicas }}
   template:
     metadata:
       labels:
         app: dfsrs
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+        scheduler.alpha.kubernetes.io/affinity: >
+            {
+              "podAntiAffinity": {
+                "requiredDuringSchedulingRequiredDuringExecution": [{
+                  "labelSelector": {
+                    "matchExpressions": [{
+                      "key": "app",
+                      "operator": "In",
+                      "values": ["dfsrs"]
+                    }]
+                  },
+                  "topologyKey": "kubernetes.io/hostname"
+                }]
+              }
+            }
     spec:
       containers:
-      - name: rs
-        imagePullPolicy: Always
-        image: dckreg:5000/hbase:1.2.4
-        ports:
-        - containerPort: 16020
-          name: rs-port
-        - containerPort: 16030
-          name: rs-info-port
-        env:
-        - name: MODE
-          value: "worker"
-        - name: ZK_LIST
-          value: "{{ zk_list }}"
-        command:
-        - sh
-        - -c
-        - starthbase.sh
+        - name: dn
+          imagePullPolicy: Always
+          image: dckreg:5000/hdfs:2.5.1
+          ports:
+          - containerPort: 50075
+            name: datanodeweb
+          - containerPort: 50010
+            name: datatrnsfr
+          - containerPort: 50020
+            name: metadata
+          env:
+          - name: DFS_REPLICATION
+            value: "{{ dfs_replication }}"
+          command:
+          - sh
+          - -c
+          - datanode.sh
+          volumeMounts:
+          - name: datadir
+            mountPath: /data
+        - name: rs
+          imagePullPolicy: Always
+          image: dckreg:5000/hbase:1.2.4
+          ports:
+          - containerPort: 16020
+            name: rs-port
+          - containerPort: 16030
+            name: rs-info-port
+          - containerPort: 50075
+            name: datanodeweb
+          - containerPort: 50010
+            name: datatrnsfr
+          - containerPort: 50020
+            name: metadata
+          env:
+          - name: MODE
+            value: "rs"
+          - name: ZK_LIST
+            value: "{{ zk_list }}"
+          - name: DFS_REPLICATION
+            value: "{{ dfs_replication }}"
+          command:
+          - sh
+          - -c
+          - starthbase.sh
+  volumeClaimTemplates:
+  - metadata:
+      name: datadir
+      {{ pv_annotations }}
+         {{ pv_annotations_line }}
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: {{ dn_disk }}

@@ -1,8 +1,9 @@
-FROM dckreg:5000/hbase:1.2.4
+FROM dckreg:5000/openjdk:8-jdk
 
 RUN apt-get  update
 RUN apt-get install -y python-software-properties 
 
+RUN useradd -u 9000 -m spark 
 
 ENV ZEPPELIN_VERSION      0.7.0
 ENV ZEPPELIN_HOME         /opt/zeppelin
@@ -13,5 +14,11 @@ RUN wget http://apache.cs.utah.edu/zeppelin/zeppelin-$ZEPPELIN_VERSION/zeppelin-
     ln -s /opt/zeppelin-$ZEPPELIN_VERSION-bin-all $ZEPPELIN_HOME && \
     rm /zeppelin-$ZEPPELIN_VERSION-bin-all.tgz
 
-RUN cp /opt/phoenix/phoenix-4.9.0-HBase-1.2-client.jar $ZEPPELIN_HOME/interpreter/jdbc/
+RUN chown -R  spark /usr/local
 
+COPY zeppelin-env.sh $ZEPPELIN_HOME/conf/zeppelin-env.sh
+COPY zeppelin-site.xml $ZEPPELIN_HOME/conf/zeppelin-site.xml
+
+RUN $ZEPPELIN_HOME/bin/install-interpreter.sh -a
+
+CMD ["zeppelin.sh"]
