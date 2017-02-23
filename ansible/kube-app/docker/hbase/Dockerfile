@@ -1,4 +1,4 @@
-FROM dckreg:5000/hdfs:2.5.1
+FROM dckreg:5000/hdfs:2.7.2
 
 ENV HBASE_VERSION    1.2.4
 ENV HBASE_HOME       /opt/hbase

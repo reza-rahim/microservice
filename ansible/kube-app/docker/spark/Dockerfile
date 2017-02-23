@@ -1,4 +1,4 @@
-FROM dckreg:5000/openjdk:8-jdk
+FROM dckreg:5000/hbase:1.2.4
 
 ENV SPARK_VERSION      2.1.0
 ENV SPARK_BIN_VERSION  $SPARK_VERSION-bin-hadoop2.7
