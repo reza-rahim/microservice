@@ -27,7 +27,7 @@ spec:
       containers:
       - name: kafka
         imagePullPolicy: Always
-        image: dckreg:5000/kafka:0.10.0.1
+        image: dckreg:5000/kafka:{{ kafka_version }}
         ports:
         - containerPort: 9092
           name: server

@@ -29,7 +29,7 @@ spec:
       containers:
       - name: sm
         imagePullPolicy: Always
-        image: dckreg:5000/spark:2.1.0
+        image: dckreg:5000/spark:{{ SPARK_VERSION }}
         ports:
         - containerPort: 7077
           name: master-port

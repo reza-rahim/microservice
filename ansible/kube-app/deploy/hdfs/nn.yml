@@ -46,7 +46,7 @@ spec:
       containers:
       - name: nn
         imagePullPolicy: Always
-        image: dckreg:5000/hdfs:2.5.1
+        image: dckreg:5000/hdfs:2.6.3
         ports:
         - containerPort: 50070
           name: http-address

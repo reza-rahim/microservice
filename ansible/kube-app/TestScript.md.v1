@@ -1,0 +1,76 @@
+###hbase
+
+kubectl -s api:8080 exec -it hm-0 bash
+
+hbase shell
+
+create 'users','info'
+put 'users','reza','info:name','reza'
+put 'users','reza','info:age','30'
+get 'users', 'reza'
+
+flush 'users'
+###phx
+
+sqlline.py zk-0.zk
+create table test (mykey integer not null primary key, mycolumn varchar);
+upsert into test values (1,'Hello');
+upsert into test values (2,'World!');
+select * from test;
+
+### Zeppline
+
+default.driver : org.apache.phoenix.jdbc.PhoenixDrive
+default.url : jdbc:phoenix:zk-0.zk:/hbase
+
+
+##### kafka test ####
+kubectl -s api:8080 exec -it kafka-0 bash
+
+## create topic
+kafka-topics.sh --create --zookeeper zk-0.zk:2181 --replication-factor 1 --partitions 1 --topic message
+kafka-topics.sh --list --zookeeper zk-0.zk:2181
+
+
+## run producer
+kafka-console-producer.sh --broker-list kafka-0.kafka:9092 --topic message
+
+kafka-console-consumer.sh --topic message --from-beginning --zookeeper zk-2.zk:2181
+
+#### hdfs test####
+kubectl -s api:8080 exec -it nn-0 bash
+
+#### spark test ###
+kubectl -s api:8080 exec -it sm-0 bash
+spark-shell --master spark://sm-0.sprkmstr:7077
+
+val textFile = sc.textFile("hdfs://nn-0.nn:9000/data.txt")
+textFile.collect().foreach(println)
+
+import spark.implicits._
+
+
+### Stream 
+####
+import org.apache.spark.sql.types._
+import org.apache.spark.sql.functions._
+import org.apache.spark.sql.catalyst.ScalaReflection
+import spark.implicits._
+
+val lines = spark.readStream.format("kafka").option("kafka.bootstrap.servers", "kafka-0.kafka:9092").option("subscribe", "message").load().selectExpr("CAST(value AS STRING)").as[String]
+
+val writer = new org.apache.spark.sql.ForeachWriter[String]{
+   override def open(partitionId: Long, version: Long) = true
+   override def process(msg: String) = {
+       println(msg )
+   }
+   override def close(errorOrNull: Throwable) = {}
+}
+
+lines.writeStream.queryName("Testing").foreach(writer).start
+
+val wordCounts = lines.flatMap(_.split(" ")).groupBy("value").count()
+val query = wordCounts.writeStream.outputMode("complete").format("console").start()
+
+### https://jaceklaskowski.gitbooks.io/mastering-apache-spark/content/spark-sql-structured-streaming.html
+##https://github.com/apache/spark/blob/master/examples/src/main/scala/org/apache/spark/examples/sql/streaming/StructuredKafkaWordCount.scala

@@ -18,7 +18,6 @@ upsert into test values (1,'Hello');
 upsert into test values (2,'World!');
 select * from test;
 
-##create table message (key integer not null primary key, msg varchar);
 ### Zeppline
 
 default.driver : org.apache.phoenix.jdbc.PhoenixDrive
@@ -32,14 +31,11 @@ kubectl -s api:8080 exec -it kafka-0 bash
 kafka-topics.sh --create --zookeeper zk-0.zk:2181 --replication-factor 1 --partitions 1 --topic message
 kafka-topics.sh --list --zookeeper zk-0.zk:2181
 
-kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic message
 
 ## run producer
 kafka-console-producer.sh --broker-list kafka-0.kafka:9092 --topic message
-kafka-console-producer.sh --broker-list localhost.kafka:9092 --topic message
 
 kafka-console-consumer.sh --topic message --from-beginning --zookeeper zk-2.zk:2181
-kafka-console-consumer.sh --topic message --from-beginning --zookeeper localhost:2181
 
 #### hdfs test####
 kubectl -s api:8080 exec -it nn-0 bash
@@ -65,20 +61,26 @@ import java.sql.Connection
 
 class SparkJob extends Serializable {
 
-   import org.apache.spark.sql.types._
-   import org.apache.spark.sql.functions._
-   import org.apache.spark.sql.catalyst.ScalaReflection
-   import java.sql.DriverManager
-   import java.sql.Connection
-   import spark.implicits._
+import org.apache.spark.sql.types._
+import org.apache.spark.sql.functions._
+import org.apache.spark.sql.catalyst.ScalaReflection
+import java.sql.DriverManager
+import java.sql.Connection
+import spark.implicits._
 
-   val i = 0 
    val driver = "org.apache.phoenix.jdbc.PhoenixDriver"
+   val zk="zk-0.zk"
    Class.forName(driver)
-   val connection:Connection = DriverManager.getConnection("jdbc:phoenix:zk-0.zk")
-   
-   def processRow(msg :String) = {
+   val connectionString = s"jdbc:phoenix:$zk"
+   val connection:Connection = DriverManager.getConnection(connectionString)
+   val sql = "upsert into  test (mykey, mycolumn) values(?, ?)"
 
+   def processRow(msg :String) = {
+      val statement = connection.prepareStatement(sql)
+      statement.setInt(1,3)
+      statement.setString(2,msg)
+      statement.executeUpdate()
+      connection.commit() 
    }
 
    def  runJob() = {
@@ -86,7 +88,7 @@ class SparkJob extends Serializable {
      val writer = new org.apache.spark.sql.ForeachWriter[String]{
         override def open(partitionId: Long, version: Long) = { println ("Opening"); true }
         override def process(msg: String) = {
-          processRow(msg)
+          println(msg )
      }
      override def close(errorOrNull: Throwable) = {}
    }
@@ -96,8 +98,6 @@ class SparkJob extends Serializable {
 }
 
 
-sc.addJar("/opt/phoenix/phoenix-4.9.0-HBase-1.2-client.jar")
-new SparkJob().runJob
 ##########
 val wordCounts = lines.flatMap(_.split(" ")).groupBy("value").count()
 val query = wordCounts.writeStream.outputMode("complete").format("console").start()

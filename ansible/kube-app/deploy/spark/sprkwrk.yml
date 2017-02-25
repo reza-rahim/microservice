@@ -44,7 +44,7 @@ spec:
       containers:
       - name: sw
         imagePullPolicy: Always
-        image: dckreg:5000/spark:2.1.0
+        image: dckreg:5000/spark:{{ SPARK_VERSION }}
         ports:
         - containerPort: 8081
           name: webui

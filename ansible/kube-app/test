@@ -1,57 +1,5 @@
-###hbase
-
-kubectl -s api:8080 exec -it hm-0 bash
-
-hbase shell
-
-create 'users','info'
-put 'users','reza','info:name','reza'
-put 'users','reza','info:age','30'
-get 'users', 'reza'
-
-flush 'users'
-###phx
-
-sqlline.py zk-0.zk
-create table test (mykey integer not null primary key, mycolumn varchar);
-upsert into test values (1,'Hello');
-upsert into test values (2,'World!');
-select * from test;
-
-##create table message (key integer not null primary key, msg varchar);
-### Zeppline
-
-default.driver : org.apache.phoenix.jdbc.PhoenixDrive
-default.url : jdbc:phoenix:zk-0.zk:/hbase
-
-
-##### kafka test ####
-kubectl -s api:8080 exec -it kafka-0 bash
-
-## create topic
-kafka-topics.sh --create --zookeeper zk-0.zk:2181 --replication-factor 1 --partitions 1 --topic message
-kafka-topics.sh --list --zookeeper zk-0.zk:2181
-
-kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic message
-
-## run producer
-kafka-console-producer.sh --broker-list kafka-0.kafka:9092 --topic message
-kafka-console-producer.sh --broker-list localhost.kafka:9092 --topic message
-
-kafka-console-consumer.sh --topic message --from-beginning --zookeeper zk-2.zk:2181
-kafka-console-consumer.sh --topic message --from-beginning --zookeeper localhost:2181
-
-#### hdfs test####
-kubectl -s api:8080 exec -it nn-0 bash
-
 #### spark test ###
 kubectl -s api:8080 exec -it sm-0 bash
-
-spark-shell --master spark://sm-0.sprkmstr:7077
-
-val textFile = sc.textFile("hdfs://nn-0.nn:9000/data.txt")
-textFile.collect().foreach(println)
-
 
 ### Stream 
 ####
@@ -74,19 +22,29 @@ class SparkJob extends Serializable {
 
    val i = 0 
    val driver = "org.apache.phoenix.jdbc.PhoenixDriver"
-   Class.forName(driver)
-   val connection:Connection = DriverManager.getConnection("jdbc:phoenix:zk-0.zk")
    
    def processRow(msg :String) = {
 
    }
 
    def  runJob() = {
+     Class.forName(driver)
+     val connection:Connection = DriverManager.getConnection("jdbc:phoenix:zk-0.zk")
+     
+     val sql = "upsert into  test (mykey, mycolumn) values(?, ?)"
+     val statement = connection.prepareStatement(sql)
+     statement.setInt(1,3)
+     statement.setString(2,"It works")
+     statement.executeUpdate()
+     connection.commit()
+     
      val lines = spark.readStream.format("kafka").option("kafka.bootstrap.servers", "kafka-0.kafka:9092").option("subscribe", "message").load().selectExpr("CAST(value AS STRING)").as[String]
+
      val writer = new org.apache.spark.sql.ForeachWriter[String]{
         override def open(partitionId: Long, version: Long) = { println ("Opening"); true }
         override def process(msg: String) = {
           processRow(msg)
+          
      }
      override def close(errorOrNull: Throwable) = {}
    }

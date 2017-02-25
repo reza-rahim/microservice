@@ -1,6 +1,6 @@
 FROM dckreg:5000/openjdk:8-jdk
 
-ENV HADOOP_VERSION    2.7.2
+ENV HADOOP_VERSION    2.6.3
 ENV HADOOP_HOME        /opt/hadoop
 ENV HADOOP_OPTS        -Djava.library.path=$HADOOP_HOME/lib/native
 ENV PATH        $PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin

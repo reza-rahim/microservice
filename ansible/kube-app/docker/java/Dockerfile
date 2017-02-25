@@ -2,7 +2,7 @@ FROM openjdk:8-jdk
 
 RUN apt update
 
-RUN apt install -y net-tools sudo 
+RUN apt install -y net-tools sudo git
 
 RUN mkdir /opt/jmx_prometheus
 

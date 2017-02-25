@@ -1,7 +1,7 @@
 FROM dckreg:5000/hbase:1.2.4
 
-ENV SPARK_VERSION      2.1.0
-ENV SPARK_BIN_VERSION  $SPARK_VERSION-bin-hadoop2.7
+ENV SPARK_VERSION      1.6.3
+ENV SPARK_BIN_VERSION  $SPARK_VERSION-bin-hadoop2.6
 ENV SPARK_HOME         /opt/spark
 ENV PATH               $PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
 
@@ -14,7 +14,7 @@ RUN wget http://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_
 RUN apt-get update
 RUN apt-get -y install python
 
-RUN useradd -u 9000 -m spark 
+RUN useradd -u 9002 -m spark 
 
 COPY spark-daemon.sh $SPARK_HOME/sbin/
 COPY startspark.sh $SPARK_HOME/sbin/
