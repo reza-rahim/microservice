@@ -46,7 +46,7 @@ spec:
       containers:
       - name: hm
         imagePullPolicy: Always
-        image: dckreg:5000/hbase:1.2.4
+        image: dckreg:5000/hbase:{{ hbase_version }}
         ports:
         - containerPort: 16000
           name: master-port

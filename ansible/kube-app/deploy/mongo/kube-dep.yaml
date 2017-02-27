@@ -14,10 +14,3 @@ spec:
         image: dckreg:5000/mongo:2.6.12
         ports:
         - containerPort: 27017
-        volumeMounts:
-        - name: mongo
-          mountPath: "/data"
-      volumes:  
-      - name: mongo
-        persistentVolumeClaim:
-          claimName: mongo

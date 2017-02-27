@@ -1,4 +1,4 @@
-FROM dckreg:5000/nodeapp
+FROM  dckreg:5000/nodeapp
 
 RUN mkdir /app
 
@@ -8,4 +8,3 @@ WORKDIR /app
 
 RUN npm install
 
-CMD ["npm", "start"]

@@ -1,0 +1,22 @@
+
+import kafka.serializer.StringDecoder
+import org.apache.spark.SparkConf
+import org.apache.spark.streaming._
+import org.apache.spark.streaming.kafka._
+
+val sparkConf = new SparkConf().setAppName("Streaming").setMaster("local[2]")
+val ssc = new StreamingContext(sparkConf, Seconds(5))
+
+val brokers="kafka-0.kafka:9092"
+val topics="message"
+val topicsSet = topics.split(",").toSet
+val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
+
+val messages = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](
+      ssc, kafkaParams, topicsSet)
+
+val lines = messages.map(_._2)
+lines.print
+
+ssc.start()
+ssc.awaitTermination()

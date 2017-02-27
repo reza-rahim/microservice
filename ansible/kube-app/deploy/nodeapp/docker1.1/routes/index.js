@@ -12,7 +12,7 @@ router.get('/helloworld', function(req, res) {
 
 /* GET Userlist page. */
 router.get('/userlist', function(req, res) {
-    var db =  require('monk')('mongo-deployment:27017/node');
+    var db =  require('monk')('mongo-0.mongo:27017/node');
     var collection = db.get('usercollection');
     collection.find({},{},function(e,docs){
         res.render('userlist', {
@@ -29,7 +29,7 @@ router.get('/newuser', function(req, res) {
 router.post('/adduser', function(req, res) {
 
     // Set our internal DB variable
-    var db =  require('monk')('mongo-deployment:27017/node');
+    var db =  require('monk')('mongo-0.mongo:27017/node');
     // Get our form values. These rely on the "name" attributes
     var userName = req.body.username;
     var userEmail = req.body.useremail;

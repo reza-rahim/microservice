@@ -46,7 +46,7 @@ spec:
       containers:
       - name: rs
         imagePullPolicy: Always
-        image: dckreg:5000/hbase:1.2.4
+        image: dckreg:5000/hbase:{{ HBASE_VERSION }}
         ports:
         - containerPort: 16020
           name: rs-port

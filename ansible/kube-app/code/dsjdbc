@@ -1,0 +1,48 @@
+
+import kafka.serializer.StringDecoder
+import org.apache.spark.SparkConf
+import org.apache.spark.streaming._
+import org.apache.spark.streaming.kafka._
+import java.sql.DriverManager
+import java.sql.Connection
+
+val driver = "org.apache.phoenix.jdbc.PhoenixDriver"
+val zk="zk-0.zk"
+Class.forName(driver)
+val connectionString = s"jdbc:phoenix:$zk"
+val connection:Connection = DriverManager.getConnection(connectionString)
+
+
+val sparkConf = new SparkConf().setAppName("Streaming").setMaster("local[2]")
+val ssc = new StreamingContext(sparkConf, Seconds(5))
+
+val brokers="kafka-0.kafka:9092"
+val topics="message"
+val topicsSet = topics.split(",").toSet
+val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
+
+val messages = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](
+      ssc, kafkaParams, topicsSet)
+
+
+def savePhx(s: String) ={
+
+  val r = scala.util.Random
+  val sql = "upsert into  test (mykey, mycolumn) values(?, ?)"
+  val statement = connection.prepareStatement(sql)
+  
+  statement.setInt(1, r.nextInt(1000))
+  statement.setString(2,s)
+  statement.executeUpdate()
+
+}
+
+val lines = messages.map(_._2)
+
+lines.foreachRDD { rdd =>
+  rdd.foreach(savePhx)              
+  connection.commit()
+}
+
+ssc.start()
+ssc.awaitTermination()

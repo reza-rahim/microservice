@@ -52,7 +52,7 @@ spec:
       containers:
         - name: dn
           imagePullPolicy: Always
-          image: dckreg:5000/hdfs:2.6.3
+          image: dckreg:5000/hdfs:{{ hadoop_version }}
           ports:
           - containerPort: 50075
             name: datanodeweb
@@ -72,7 +72,7 @@ spec:
             mountPath: /data
         - name: rs
           imagePullPolicy: Always
-          image: dckreg:5000/hbase:1.2.4
+          image: dckreg:5000/hbase:{{ hbase_version }}
           ports:
           - containerPort: 16020
             name: rs-port

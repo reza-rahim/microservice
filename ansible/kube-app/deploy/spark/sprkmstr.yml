@@ -29,7 +29,7 @@ spec:
       containers:
       - name: sm
         imagePullPolicy: Always
-        image: dckreg:5000/spark:{{ SPARK_VERSION }}
+        image: dckreg:5000/spark:{{ spark_version }}
         ports:
         - containerPort: 7077
           name: master-port
@@ -43,7 +43,7 @@ spec:
         - name: MODE
           value: "master"
         - name: SPARK_MASTER_IP
-          value: "sprkmstr-0.sprkmstr"
+          value: "sm-0.sm"
         - name: SPARK_LOCAL_DIRS
           value: "/data/spark/data"
         - name: SPARK_WORKER_DIR

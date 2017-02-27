@@ -48,7 +48,7 @@ spec:
       containers:
       - name: dn
         imagePullPolicy: Always
-        image: dckreg:5000/hdfs:2.7.2
+        image: dckreg:5000/hdfs:{{ hadoop_version }}
         ports:
         - containerPort: 50075
           name: datanodeweb

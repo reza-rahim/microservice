@@ -1,0 +1,37 @@
+lazy val root = (project in file(".")).
+  settings(
+    name := "spark-stream",
+    version := "0.0.1-SNAPSHOT",
+    scalaVersion := "2.10.4",
+    mainClass in Compile := Some("Main")
+  )
+
+val sparkVersion = "1.6.3"
+
+libraryDependencies ++= Seq(
+  "org.apache.spark" %% "spark-core" % "sparkVersion % "provided",
+  "org.apache.spark" %% "spark-sql" % sparkVersion % "provided",
+  "org.apache.spark" %% "spark-streaming" % sparkVersion % "provided",
+  "org.apache.spark" % "spark-streaming-kafka_2.10" % sparkVersion,
+  // "org.apache.spark" %% "spark-mlib" % sparkVersion,
+  //"org.apache.spark" %% "spark-graphx" % sparkVersion,
+   "org.apache.kafka" % "kafka-clients" % "0.8.2.2",
+  "org.apache.phoenix" % "phoenix-core" % "4.9.0-HBase-1.2" % "provided",
+  "org.scalactic" %% "scalactic" % "3.0.1" % "test",
+  "org.scalatest" %% "scalatest" % "3.0.1" % "test"
+)
+
+assemblyMergeStrategy in assembly := {
+  case m if m.toLowerCase.endsWith("manifest.mf") => MergeStrategy.discard
+  case m if m.toLowerCase.matches("meta-inf.*\\.sf$") => MergeStrategy.discard
+  case "log4j.properties" => MergeStrategy.discard
+  case m if m.toLowerCase.startsWith("meta-inf/services/") =>
+    MergeStrategy.filterDistinctLines
+  case "reference.conf" => MergeStrategy.concat
+  case _ => MergeStrategy.first
+}
+
+unmanagedBase := file("/opt/phoenix/")
+
+// to ser from sbt prompt 
+// set unmanagedBase := file("/opt/hbase/lib")

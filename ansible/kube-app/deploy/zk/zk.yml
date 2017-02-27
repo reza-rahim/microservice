@@ -46,7 +46,7 @@ spec:
       containers:
       - name: zk
         imagePullPolicy: Always
-        image: dckreg:5000/zookeeper:3.4.8
+        image: dckreg:5000/zookeeper:{{ zookeeper_version }}
         ports:
         - containerPort: 2181
           name: client
