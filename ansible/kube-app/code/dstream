@@ -8,6 +8,7 @@ val sparkConf = new SparkConf().setAppName("Streaming").setMaster("local[2]")
 val ssc = new StreamingContext(sparkConf, Seconds(5))
 
 val brokers="kafka-0.kafka:9092"
+val brokers="localhost:9092"
 val topics="message"
 val topicsSet = topics.split(",").toSet
 val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)

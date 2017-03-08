@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+
+    <header>
+        <% include ../partials/header %>
+    </header>
+
+    <main>
+        <div class="jumbotron">
+            <h2>Add a User</h2>
+   
+             <form class="form-inline" action="/adduser" method="POST">
+                <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="firstName" name="firstName" placeholder="First Name">
+                <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="lastName" name="lastName"  placeholder="last Name">
+                <button type="submit" class="btn btn-primary">Submit</button>
+             </form>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+    
+</body>
+</html>

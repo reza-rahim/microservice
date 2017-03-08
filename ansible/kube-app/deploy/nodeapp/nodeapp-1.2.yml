@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nodeapp
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nodeapp
+    spec:
+      containers:
+      - name: nodeapp
+        imagePullPolicy: Always
+        image: dckreg:5000/nodeapp:1.2
+        ports:
+        - containerPort: 3000
+        command:
+        - sh
+        - -c
+        - npm start

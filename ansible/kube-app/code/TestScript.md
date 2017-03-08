@@ -36,7 +36,6 @@ kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --par
 
 ## run producer
 kafka-console-producer.sh --broker-list kafka-0.kafka:9092 --topic message
-kafka-console-producer.sh --broker-list localhost.kafka:9092 --topic message
 
 kafka-console-consumer.sh --topic message --from-beginning --zookeeper zk-2.zk:2181
 kafka-console-consumer.sh --topic message --from-beginning --zookeeper localhost:2181
@@ -47,10 +46,16 @@ kubectl -s api:8080 exec -it nn-0 bash
 #### spark test ###
 kubectl -s api:8080 exec -it sm-0 bash
 
-spark-shell --master spark://sm-0.sprkmstr:7077
+spark-shell --master spark://sm-0.sm:7077
 
 val textFile = sc.textFile("hdfs://nn-0.nn:9000/data.txt")
 textFile.collect().foreach(println)
+
+##
+
+
+spark-submit --class Main --master spark://sm-0.sm:7077 
+spark-submit --class Streaming --jars /opt/phoenix/phoenix-4.9.0-HBase-1.2-client.jar --master spark://sm-0.sm:7077 
 
 
 ### Stream 

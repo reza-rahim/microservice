@@ -1,19 +1,19 @@
 ./buildall.sh
-#kubectl -s node1:8080 expose deployment nodeapp-deployment  --target-port=3000 --type=NodePort
+#kubectl -s api:8080 expose deployment nodeapp-deployment  --target-port=3000 --type=NodePort
 
-kubectl -s node1:8080 create -f kube-svc.yml
-kubectl -s node1:8080 create  -f kube-dep-1.1.yaml --record
+kubectl -s api:8080 create -f nodeapp-svc.yml
+kubectl -s api:8080 create  -f nodeapp-1.1.yml --record
 
 ## rolling update
-kubectl set image deployment/nodeapp-deployment  nodeapp=dckreg:5000/nodeapp:1.2
+kubectl -s api:8080 set image deployment/nodeapp  nodeapp=dckreg:5000/nodeapp:1.2
 
 ##
-kubectl rollout history  deployments nodeapp-deployment
-kubectl rollout undo deployments nodeapp-deployment --to-revision=1
-kubectl rollout undo deployments nodeapp-deployment 
+kubectl -s api:8080 rollout history  deployments nodeapp
+kubectl -s api:8080 rollout undo deployments nodeapp --to-revision=1
+kubectl -s api:8080 rollout undo deployments nodeapp 
 
 ## Scaling app ##
-kubectl scale  deployment/nodeapp-deployment --replicas=2
+kubectl -s api:8080 scale  deployment/nodeapp-deployment --replicas=2
 
 
 ## prometheus

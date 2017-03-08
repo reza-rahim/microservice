@@ -26,3 +26,4 @@ RUN chown -R hdfs $HADOOP_HOME
 RUN mkdir /data
 RUN chown -R hdfs /data
 
+

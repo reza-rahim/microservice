@@ -95,3 +95,17 @@ spec:
     - ReadWriteOnce
   hostPath:
     path: "/tmp/local-6"
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: local-7
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/tmp/local-7"
