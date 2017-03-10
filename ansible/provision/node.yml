@@ -1,0 +1,7 @@
+- hosts: node
+  become: yes
+  roles:
+     - common
+     - docker-new
+     - kube
+     - kube-node

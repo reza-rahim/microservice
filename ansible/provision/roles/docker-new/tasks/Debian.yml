@@ -3,7 +3,7 @@
 - name: Install docker
   apt: pkg={{item}}  state=present update_cache=yes
   with_items:
-     - docker.io=1.12.3-0ubuntu4~16.04.2
+     - docker.io
   notify: Start {{ role_name }}
 
 - name: Add docker insecure parameter
