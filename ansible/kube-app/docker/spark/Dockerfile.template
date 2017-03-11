@@ -2,14 +2,23 @@ FROM dckreg:5000/hbase:{{ HBASE_VERSION }}
 
 ENV SPARK_VERSION     {{ SPARK_VERSION }} 
 ENV SPARK_BIN_VERSION {{ SPARK_BIN_VERSION }} 
+ENV SBT_VERSION       {{ SBT_VERSION }}
 ENV SPARK_HOME         /opt/spark
-ENV PATH               $PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
+ENV SBT_HOME           /opt/sbt
+ENV PATH               $PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin:$SBT_HOME/bin
 
 # Installing Spark for Hadoop
 RUN wget http://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_BIN_VERSION.tgz && \
     tar -zxf /spark-$SPARK_BIN_VERSION.tgz  && \
     mv spark-$SPARK_BIN_VERSION $SPARK_HOME && \
     rm /spark-$SPARK_BIN_VERSION.tgz
+
+RUN wget  https://dl.bintray.com/sbt/native-packages/sbt/$SBT_VERSION/sbt-$SBT_VERSION.tgz && \
+     tar -zxf /sbt-$SBT_VERSION.tgz && \
+     rm sbt-$SBT_VERSION.tgz && \
+     mv /sbt* $SBT_HOME
+    
+RUN sbt run 
 
 RUN apt-get update
 RUN apt-get -y install python

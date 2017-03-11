@@ -43,6 +43,7 @@ kubectl -s api:8080 delete pv  local-3
 kubectl -s api:8080 delete pv  local-4
 kubectl -s api:8080 delete pv  local-5
 kubectl -s api:8080 delete pv  local-6
+kubectl -s api:8080 delete pv  local-7
 
 ssh node1 sudo rm -rf /tmp/local*
 ssh node2 sudo rm -rf /tmp/local*

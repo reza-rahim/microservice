@@ -52,6 +52,10 @@ spec:
           value: "8080"
         - name: SPARK_DAEMON_JAVA_OPTS
           value: "-Dspark.deploy.recoveryMode=FILESYSTEM -Dspark.deploy.recoveryDirectory=/data/spark/recovery"
+        - name: ZK_LIST
+          value: "{{ zk_list }}"
+        - name: KAFKA_BROKER_LIST
+          value: "{{ kafka_broker_list }}"
         volumeMounts:
         - name: datadir
           mountPath: /data

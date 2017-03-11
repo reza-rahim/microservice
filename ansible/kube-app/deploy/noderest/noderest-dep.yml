@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: noderest
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: noderest
+    spec:
+      containers:
+      - name: noderest
+        imagePullPolicy: Always
+        image: dckreg:5000/noderest:1.1
+        ports:
+        - containerPort: 3000
+        env:
+        - name: KAFKA_BROKER_LIST
+          value: "{{ kafka_broker_list }}" 
+        command:
+        - sh
+        - -c
+        - npm start

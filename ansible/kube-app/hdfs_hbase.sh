@@ -3,7 +3,7 @@
 kubectl -s api:8080 create -f local-pv.yml
 
 source docker/docker_version.conf
-source conf/analytic_pod.conf
+source conf/local_analytic_pod.conf
 
 cat deploy/zk/zk.yml | \
 sed -e "s/{{ pv_annotations }}/$PV_ANNOTATIONS/" \

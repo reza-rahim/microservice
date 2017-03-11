@@ -1,10 +1,5 @@
  #!/bin/bash
 
-kubectl -s api:8080 create -f local-pv.yml
-
-source docker/docker_version.conf
-source conf/mean_pod.conf
-
 cat deploy/mongo/mongo.yml | \
 sed -e "s/{{ pv_annotations }}/$PV_ANNOTATIONS/" \
     -e "s/{{ pv_annotations_line }}/$PV_ANNOTATIONS_LINE/" \

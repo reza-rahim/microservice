@@ -10,4 +10,5 @@ RUN wget http://central.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaag
 
 RUN mv jmx_prometheus_javaagent-0.7.jar /opt/jmx_prometheus/jmx_prometheus_javaagent.jar
 
-RUN echo "export JAVA_HOME=$JAVA_HOME" >> /etc/profile
+RUN echo "export JAVA_HOME=$JAVA_HOME" >> /etc/environment
+

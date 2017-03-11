@@ -1,6 +1,6 @@
 FROM dckreg:5000/spark:1.6.3
 
-ENV SBT_VERSION     0.13.11
+ENV SBT_VERSION     0.13.13
 ENV SBT_HOME        /opt/sbt  
 ENV PATH            $PATH:$SBT_HOME/bin
 
