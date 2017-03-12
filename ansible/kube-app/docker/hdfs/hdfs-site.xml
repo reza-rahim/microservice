@@ -16,10 +16,6 @@
 		<value>file:///data/dfs/name</value>
 	</property>
 	<property>
-		<name>dfs.namenode.checkpoint.dir</name>
-		<value>file:///data/dfs/namesecondary </value>
-	</property>
-	<property>
 		<name>dfs.namenode.datanode.registration.ip-hostname-check</name>
 		<value>false</value>
 	</property>
@@ -27,13 +23,5 @@
          	<name>dfs.namenode.http-address</name>
                 <value>nn-0.nn:50070</value>
      		<description>Enter your NameNode hostname for http access.</description>
-	</property>
-        <property>
-                <name>dfs.datanode.use.datanode.hostname</name>
-                <value>true</value>
-	</property>
-        <property>
-  		<name>dfs.client.use.datanode.hostname</name>
-  		<value>true</value>
 	</property>
 </configuration>
