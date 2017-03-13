@@ -24,4 +24,12 @@
                 <value>nn-0.nn:50070</value>
      		<description>Enter your NameNode hostname for http access.</description>
 	</property>
+        <property>
+                <name>dfs.datanode.use.datanode.hostname</name>
+                <value>true</value>
+       </property>
+       <property>
+               <name>dfs.client.use.datanode.hostname</name>
+               <value>true</value>
+       </property>
 </configuration>
