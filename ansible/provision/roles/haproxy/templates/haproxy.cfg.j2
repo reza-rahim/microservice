@@ -35,11 +35,16 @@ defaults
     stats uri /haproxy?stats
     stats auth admin:@dmin
 
-frontend https-frontend 
+frontend https-frontend
     mode http
-    bind *:80 
-    default_backend wwwbackend
+    bind *:80
+    acl api path_beg /api
+    use_backend restapi if api
+    default_backend nodeapp
 
-backend wwwbackend
+backend nodeapp
     balance roundrobin
-    server node1 10.0.17.11:9080 check port 9080 	
+    server node1 10.0.17.11:31000 check port 31000
+
+backend restapi
+    server node1 10.0.17.11:32000/api check port 32000
