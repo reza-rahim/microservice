@@ -46,9 +46,15 @@ kubectl -s api:8080 exec -it nn-0 bash
 #### spark test ###
 kubectl -s api:8080 exec -it sm-0 bash
 
+export SPARK_DIST_CLASSPATH=$(/opt/hadoop/bin/hadoop classpath)
+export HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
+export YARN_CONF_DIR=/opt/hadoop/etc/hadoop
+
 spark-shell --master spark://sm-0.sm:7077
 
 val textFile = sc.textFile("hdfs://nn-0.nn:9000/data.txt")
+val textFile = sc.textFile("/data.txt")
+
 textFile.collect().foreach(println)
 
 ##

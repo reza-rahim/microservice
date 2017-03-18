@@ -1,4 +1,4 @@
-FROM dckreg:5000/hbase-base:{{ HBASE_VERSION }}
+FROM dckreg:5000/hbase-base:1.2.4
 
 
 COPY core-site.xml $HADOOP_HOME/etc/hadoop/core-site.xml

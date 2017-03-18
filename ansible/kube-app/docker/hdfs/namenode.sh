@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sed  -i -e 's/nn-0.nn/0.0.0.0/' -e "s/{{ DFS_REPLICATION }}/$DFS_REPLICATION/" $HADOOP_HOME/etc/hadoop/hdfs-site.xml
+#sed  -i -e 's/nn-0.nn/0.0.0.0/' -e "s/{{ DFS_REPLICATION }}/$DFS_REPLICATION/" $HADOOP_HOME/etc/hadoop/hdfs-site.xml
 sed  -i -e 's/nn-0.nn/0.0.0.0/' $HADOOP_HOME/etc/hadoop/core-site.xml
 
 if [ ! -d /data/dfs/name ]; then

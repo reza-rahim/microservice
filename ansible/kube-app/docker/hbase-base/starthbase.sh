@@ -1,6 +1,7 @@
 #!/bin/bash
 
 sed -i -e "s/{{ ZK_LIST }}/$ZK_LIST/"  $HBASE_HOME/conf/hbase-site.xml
+sed  -i -e "s/{{ DFS_REPLICATION }}/$DFS_REPLICATION/" $HADOOP_HOME/etc/hadoop/hdfs-site.xml
 
 HOST=$(hostname -f)
 

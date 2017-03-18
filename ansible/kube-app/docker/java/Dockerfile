@@ -2,7 +2,8 @@ FROM openjdk:8-jdk
 
 RUN apt update
 
-RUN apt install -y net-tools sudo git
+RUN apt install -y net-tools sudo git python 
+RUN apt-get -y autoremove
 
 RUN mkdir /opt/jmx_prometheus
 

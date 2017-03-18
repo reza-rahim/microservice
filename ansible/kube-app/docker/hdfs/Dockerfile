@@ -1,4 +1,4 @@
-FROM dckreg:5000/hadoop:{{ HADOOP_VERSION }}
+FROM dckreg:5000/hadoop:2.7.3
 
 COPY core-site.xml $HADOOP_HOME/etc/hadoop/core-site.xml
 COPY hdfs-site.xml $HADOOP_HOME/etc/hadoop/hdfs-site.xml
