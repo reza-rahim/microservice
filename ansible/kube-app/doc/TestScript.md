@@ -128,9 +128,4 @@ new SparkJob().runJob
 val wordCounts = lines.flatMap(_.split(" ")).groupBy("value").count()
 val query = wordCounts.writeStream.outputMode("complete").format("console").start()
 
-### https://jaceklaskowski.gitbooks.io/mastering-apache-spark/content/spark-sql-structured-streaming.html
-##https://github.com/apache/spark/blob/master/examples/src/main/scala/org/apache/spark/examples/sql/streaming/StructuredKafkaWordCount.scala
 
-val dataSet = List((2,"kalu"),(3,"khan"))
-sc.parallelize(dataSet)
-sc.parallelize(dataSet).saveToPhoenix("test",Seq("mykey","mycolumn"), zkUrl = Some("zk-0.zk:2181"))
